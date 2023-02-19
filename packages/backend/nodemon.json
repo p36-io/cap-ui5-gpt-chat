@@ -1,0 +1,16 @@
+{
+    "ignore": [
+        ".git",
+        "node_modules"
+    ],
+    "verbose": false,
+    "exec": "npm run build:ts && node --inspect=9230 ./gen/srv/srv/server.js",
+    "watch": [
+        "src/**/*"
+    ],
+    "env": {
+        "PORT": 3001,
+        "NODE_ENV": "development"
+    },
+    "ext": "*.ts"
+}

@@ -1,0 +1,46 @@
+{
+  "name": "p36-cap-ui5-gpt-chat-backend",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "https://github.com/p36-io/cap-ui5-gpt-chat",
+  "author": "p36 GmbH",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^6",
+    "@sap/cds-dk": "^6",
+    "cds-routing-handlers": "^3.0.7",
+    "cds2types": "^3.0.0",
+    "express": "^4",
+    "openai": "^3.1.0",
+    "reflect-metadata": "^0.1.13",
+    "typedi": "^0.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "jest": "^29.4.3",
+    "nodemon": "^2.0.20",
+    "sqlite3": "^5.1.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5",
+    "passport-http": "^0.3.0"
+  },
+  "scripts": {
+    "start": "node ./srv/server.js",
+    "start:dev": "npm run build:cds && nodemon",
+    "deploy:local": "cds deploy --to sqlite:chat.db",
+    "build": "npm run build:cds && npm run build:ts",
+    "build:cds": "echo 'Compiling cds sources...' && cds2types --cds ./srv/index.cds --output ./src/types/ --prefix I -f && cds build && cp .cdsrc.json gen/srv",
+    "build:ts": "echo 'Compiling *.ts sources...' && tsc"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "database": "chat.db"
+        }
+      }
+    }
+  }
+}
