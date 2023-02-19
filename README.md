@@ -1,5 +1,11 @@
 # A ChatGPT-like chat app built with SAP CAP and SAPUI5
 
+**Important**: Currently WIP.
+
+This is a full working sample chat application built with SAP CAP and SAPUI5. It uses the [OpenAI API](https://openai.com/blog/openai-api/) to generate responses to the user's messages. More details can be found in the related blog posts in the SAP Community:
+
+TBD
+
 ## Run the app locally in development mode
 
 ### Prerequisites
@@ -61,8 +67,8 @@ Open the following URL in your browser and start chatting: [http://localhost:808
 
 There are two ways to add your OpenAI API key to the app:
 
-You can either add it to the `backend.mtaext` file:
+You can either add it to the `dev.mtaext` file:
 
 ```yaml
-
+TBD
 ```
