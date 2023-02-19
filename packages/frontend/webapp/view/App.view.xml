@@ -1,0 +1,18 @@
+<mvc:View controllerName="com.p36.capui5gptchat.controller.App" displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+
+	<App id="app">
+		<mvc:View controllerName="com.p36.capui5gptchat.controller.App" displayBlock="true"
+			xmlns="sap.m"
+			xmlns:f="sap.f"
+			xmlns:mvc="sap.ui.core.mvc">
+
+			<f:FlexibleColumnLayout id="flexibleColumnLayout" layout="{app>/layout}" backgroundDesign="Solid">
+				<!-- Dynamic filled content -->
+			</f:FlexibleColumnLayout>
+
+		</mvc:View>
+	</App>
+
+</mvc:View>

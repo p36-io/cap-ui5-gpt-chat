@@ -1,0 +1,33 @@
+.sapUiSizeCompact .sapFDynamicPage.chatPage .sapFDynamicPageFooter .sapFDynamicPageActualFooterControl {
+    height: 6rem;
+}
+
+.chatPage .sapMInputBaseContentWrapper,
+.chatPage .sapMFeedIn:not(.sapMFeedInDisabled) .sapMFeedInContainer,
+.chatPage .sapMFeedIn {
+    background: transparent !important;
+}
+
+.sapMMessageListItem {
+    overflow: hidden;
+}
+.sapMMessageListItem .sapMMessageListItemInfo .sapMText{
+    font-size: .75rem;
+    line-height: 2.5rem;
+    color: #cdcdcd !important;
+    margin-right: 0.5rem !important;
+}
+
+.sapMMessageListItem .sapFAvatar {
+    float: left;
+    height: 2.5rem;
+    width: 1rem;
+    margin-right: 0.5rem !important;
+    overflow: visible;
+    margin: 0rem;
+    color: #cdcdcd !important;
+}
+
+.sapMMessageListItem .sapMMessageListItemText {
+    
+}

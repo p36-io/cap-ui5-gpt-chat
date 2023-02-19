@@ -1,0 +1,24 @@
+specVersion: "2.6"
+metadata:
+  name: com.p36.capui5gptchat
+type: application
+resources:
+  configuration:
+    paths:
+      webapp: dist
+framework:
+  name: SAPUI5
+  version: "1.110.0"
+  libraries:
+    - name: sap.m
+    - name: sap.f
+    - name: sap.ui.core
+    - name: sap.ui.unified
+    - name: sap.suite.ui.commons
+    - name: sap.tnt
+    - name: sap.uxap
+    - name: sap.ui.unified
+    - name: sap.ui.comp
+    - name: sap.ui.testrecorder
+    - name: themelib_sap_horizon
+    - name: themelib_sap_fiori_3

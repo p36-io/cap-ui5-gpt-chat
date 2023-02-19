@@ -1,0 +1,66 @@
+<mvc:View xmlns:core="sap.ui.core" controllerName="com.p36.capui5gptchat.controller.Chat" displayBlock="true"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:custom="com.p36.capui5gptchat.control" core:require="{
+        Helper: 'com/p36/capui5gptchat/util/Helper'
+	}"
+	xmlns:layout="sap.ui.layout" height="100%">
+
+	<f:DynamicPage class="sapUiContentPadding chatPage" showFooter="true">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{topic}"/>
+				</f:heading>
+				<f:content>
+
+				</f:content>
+				<f:actions>
+
+				</f:actions>
+				<f:navigationActions>
+					<Button icon="sap-icon://delete" press="onDeleteChat" type="Reject"/>
+					<Button icon="sap-icon://full-screen" press="Helper.setLayout('TwoColumnsMidExpanded', $event)" visible="{= ${app>/layout} === 'MidColumnFullScreen' }" type="Transparent" />
+					<Button icon="sap-icon://exit-full-screen" press="Helper.setLayout('MidColumnFullScreen', $event)" visible="{= ${app>/layout} === 'TwoColumnsMidExpanded' }" type="Transparent" />
+				</f:navigationActions>
+			</f:DynamicPageTitle>
+		</f:title>
+		<!-- DynamicPage Header -->
+		<f:header>
+			<f:DynamicPageHeader pinnable="false">
+				<layout:HorizontalLayout>
+					<layout:VerticalLayout class="sapUiMediumMarginEnd">
+						<ObjectAttribute title="Model" text="{model}"/>
+					</layout:VerticalLayout>
+					<layout:VerticalLayout class="sapUiMediumMarginEnd">
+						<ObjectAttribute title="Personality" text="{= ${personality/name} || 'none' }">
+							<customData>
+								<core:CustomData value="{personality_ID}"></core:CustomData>
+							</customData>
+						</ObjectAttribute>
+					</layout:VerticalLayout>
+				</layout:HorizontalLayout>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<VBox class="sapUiLargeMarginBottom">
+				<List id="messageList" showNoData="false" showSeparators="Inner" items="{ path: 'messages', sorter: { path: 'createdAt', descending: false }}">
+					<custom:MessageListItem message="{text}" sender="{= ${sender} || 'unknown' }" date="{createdAt}">
+						<custom:avatar>
+							<Avatar displaySize="S" src="{= ${sender} === 'AI' ? 'sap-icon://tnt/robot' : 'sap-icon://tnt/user' }" displayShape="Square" backgroundColor="Transparent" />
+						</custom:avatar>
+					</custom:MessageListItem>
+				</List>
+			</VBox>
+		</f:content>
+		<!-- DynamicPage Footer -->
+		<f:footer>
+			<OverflowToolbar class="">
+				<FeedInput post="onPostMessage" showIcon="false" />
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+
+</mvc:View>

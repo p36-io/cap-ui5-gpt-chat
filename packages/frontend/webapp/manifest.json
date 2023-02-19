@@ -1,0 +1,138 @@
+{
+	"_version": "1.12.0",
+	"sap.app": {
+		"id": "com.p36.capui5gptchat",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"dataSources": {
+			"default": {
+				"uri": "srv/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		},
+		"applicationVersion": {
+			"version": "1.0.0"
+		}
+	},
+	"sap.ui": {
+		"fullWidth": true,
+		"technology": "UI5",
+		"icons": {},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"rootView": {
+			"viewName": "com.p36.capui5gptchat.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "app"
+		},
+		"dependencies": {
+			"minUI5Version": "1.108.6",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.ui.layout": {},
+				"sap.ui.unified": {},
+				"sap.m": {}
+			}
+		},
+		"handleValidation": true,
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"synchronizationMode": "None",
+					"groupId": "$auto",
+					"groupProperties": {
+						"update": {
+							"submit": "API"
+						},
+						"response": {
+							"submit": "API"
+						}
+					},
+					"autoExpandSelect": true,
+					"operationMode": "Server",
+					"updateGroupId": "update"
+				},
+				"dataSource": "default",
+				"preload": false
+			},
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.p36.capui5gptchat.i18n.i18n"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.f.routing.Router",
+				"viewType": "XML",
+				"viewPath": "com.p36.capui5gptchat.view",
+				"controlId": "flexibleColumnLayout",
+				"transition": "slide",
+				"bypassed": {},
+				"async": true
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "home",
+					"target": [
+						"chats",
+						"noChat"
+					],
+					"layout": "TwoColumnsMidExpanded"
+				},
+				{
+					"pattern": "chat/{chat}",
+					"name": "chat",
+					"target": [
+						"chats",
+						"chat"
+					],
+					"layout": "TwoColumnsMidExpanded"
+				}
+			],
+			"targets": {
+				"chats": {
+					"viewId": "chats",
+					"viewName": "Chats",
+					"controlAggregation": "beginColumnPages"
+				},
+				"chat": {
+					"viewId": "chat",
+					"viewName": "Chat",
+					"controlAggregation": "midColumnPages"
+				},
+				"noChat": {
+					"viewId": "nochat",
+					"viewName": "NoChat",
+					"controlAggregation": "midColumnPages"
+				}
+			}
+		}
+	}
+}

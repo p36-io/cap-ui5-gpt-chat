@@ -1,0 +1,15 @@
+{
+  "generator-ui5-ts-app": {
+    "application": "chatgptui5messenger",
+    "namespace": "com.p36",
+    "framework": "SAPUI5",
+    "frameworkVersion": "1.108.6",
+    "author": "Mike Zaschka",
+    "initrepo": false,
+    "tstypes": "@sapui5/ts-types-esm",
+    "tstypesVersion": "1.108.6",
+    "appId": "com.p36.chatgptui5messenger",
+    "appURI": "com/p36/chatgptui5messenger",
+    "setupCompleted": true
+  }
+}
