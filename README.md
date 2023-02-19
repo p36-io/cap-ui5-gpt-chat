@@ -1,4 +1,4 @@
-# OpenAI Chatbot built on the SAP Cloud Application Programming Model and SAPUI5
+# A ChatGPT-like chat app built with SAP CAP and SAPUI5
 
 ## Run the app locally in development mode
 
@@ -43,7 +43,7 @@ app_openai-api-token = <your API key>
 The following command will start the app in development mode. It will start the backend and the frontend in parallel.
 
 ```bash
-pnpm --parralel start:dev
+pnpm --parallel start:dev
 ```
 
 ### Open the app in the browser
