@@ -5,6 +5,6 @@
     xmlns:custom="com.p36.capui5gptchat.control"
     xmlns:layout="sap.ui.layout">
 
-    <MessagePage showHeader="false" text="Welcome to the ChatGPT-like Messenger with SAPUI5 and CAP" description="Create or select a chat and let's go." icon="sap-icon://tnt/robot"/>
+    <MessagePage showHeader="false" text="Welcome to the ChatGPT-like chat app with SAPUI5 and CAP" description="Create or select a chat and let's start chatting." icon="sap-icon://tnt/robot"/>
 
 </mvc:View>

@@ -2,11 +2,7 @@ import Dialog from "sap/m/Dialog";
 import Fragment from "sap/ui/core/Fragment";
 import View from "sap/ui/core/mvc/View";
 import JSONModel from "sap/ui/model/json/JSONModel";
-
-export interface Chat {
-  topic: string;
-  model: string;
-}
+import { IChat } from "../types/tyes";
 
 export default class NewChatDialog {
   private static promiseResolver: any;
@@ -14,7 +10,7 @@ export default class NewChatDialog {
   private static newChatModel: JSONModel;
   private static dialog: Dialog;
 
-  public static async open(view: View): Promise<Chat> {
+  public static async open(view: View): Promise<IChat> {
     return new Promise(async (resolve, reject) => {
       this.promiseResolver = resolve;
       this.rejectResolver = reject;
@@ -25,7 +21,7 @@ export default class NewChatDialog {
       });
       view.addDependent(this.dialog);
 
-      this.newChatModel = new JSONModel({
+      this.newChatModel = new JSONModel(<IChat>{
         topic: "",
         model: "text-davinci-003",
         personality_ID: null,

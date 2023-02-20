@@ -14,16 +14,10 @@
 				<f:heading>
 					<Title text="{topic}"/>
 				</f:heading>
-				<f:content>
-
-				</f:content>
-				<f:actions>
-
-				</f:actions>
 				<f:navigationActions>
 					<Button icon="sap-icon://delete" press="onDeleteChat" type="Reject"/>
-					<Button icon="sap-icon://full-screen" press="Helper.setLayout('TwoColumnsMidExpanded', $event)" visible="{= ${app>/layout} === 'MidColumnFullScreen' }" type="Transparent" />
-					<Button icon="sap-icon://exit-full-screen" press="Helper.setLayout('MidColumnFullScreen', $event)" visible="{= ${app>/layout} === 'TwoColumnsMidExpanded' }" type="Transparent" />
+					<Button icon="sap-icon://exit-full-screen" press="Helper.setLayout('TwoColumnsMidExpanded', $event)" visible="{= ${app>/layout} === 'MidColumnFullScreen' }" type="Transparent" />
+					<Button icon="sap-icon://full-screen" press="Helper.setLayout('MidColumnFullScreen', $event)" visible="{= ${app>/layout} === 'TwoColumnsMidExpanded' }" type="Transparent" />
 				</f:navigationActions>
 			</f:DynamicPageTitle>
 		</f:title>
@@ -57,7 +51,7 @@
 		</f:content>
 		<!-- DynamicPage Footer -->
 		<f:footer>
-			<OverflowToolbar class="">
+			<OverflowToolbar>
 				<FeedInput post="onPostMessage" showIcon="false" />
 			</OverflowToolbar>
 		</f:footer>

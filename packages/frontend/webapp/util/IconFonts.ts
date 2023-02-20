@@ -1,7 +1,7 @@
 import IconPool from "sap/ui/core/IconPool";
 
 export default class IconFonts {
-  public static registerIconFonts(): void {
+  public static register(): void {
     IconPool.registerFont({
       collectionName: "tnt",
       fontFamily: "SAP-icons-TNT",

@@ -7,6 +7,7 @@ import MessageBox from "sap/m/MessageBox";
 import BusyDialog from "sap/m/BusyDialog";
 import Helper from "../util/Helper";
 import Context from "sap/ui/model/odata/v4/Context";
+import { IChat, IChatMessage } from "../types/tyes";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
@@ -33,12 +34,13 @@ export default class Chat extends BaseController {
 
   /**
    * Called when the user presses the delete button.
+   *
+   * @param event {sap.ui.base.Event}
    */
-  public onDeleteChat(): void {
+  public onDeleteChat(event: UI5Event): void {
     Helper.withConfirmation("Delete Chat", "Are you sure you want to delete this chat?", () => {
-      const bindingContext = <Context>this.getView().getBindingContext();
-      bindingContext.delete();
-      const model = <ODataModel>this.getView().getModel();
+      (<Context>this.getView().getBindingContext()).delete();
+      const model = <ODataModel>this.getModel();
       model.submitBatch(model.getUpdateGroupId()).then(() => {
         this.getRouter().navTo("home");
       });
@@ -48,59 +50,55 @@ export default class Chat extends BaseController {
   public async onPostMessage(event: UI5Event): Promise<void> {
     const message = event.getParameter("value");
     const chat = <any>this.getView().getBindingContext().getObject();
-    const context = (<ODataListBinding>this.getView().byId("messageList").getBinding("items")).create(
-      {
-        text: message.trim(),
-        engine: chat.engine,
-        chat_ID: chat.ID,
-      },
-      false,
-      true
-    );
 
-    // Note: This promise fails only if the transient entity is deleted
-    context.created().then(
-      async () => {
-        const dialog = new BusyDialog({
-          text: "Thinking...",
-        });
-        dialog.open();
+    await this.createMessage(<IChatMessage>{
+      text: message.trim(),
+      model: chat.model,
+      chat_ID: chat.ID,
+    });
 
-        const response = await this.askChatGPT(chat.model, chat.personality_ID);
-        dialog.close();
-        const responseContext = (<ODataListBinding>this.getView().byId("messageList").getBinding("items")).create(
-          {
-            text: response,
-            model: chat.model,
-            sender: "AI",
-            chat_ID: chat.ID,
-          },
-          false,
-          true
-        );
-        model.submitBatch(model.getUpdateGroupId()); //.then(resetBusy, resetBusy);
-      },
-      function (oError) {
-        // handle rejection of entity creation; if oError.canceled === true then the transient entity has been deleted
-      }
-    );
-    const model = <ODataModel>this.getView().getModel();
-    model.submitBatch(model.getUpdateGroupId()); //.then(resetBusy, resetBusy);
+    const response = await this.getCompletion(chat);
+
+    await this.createMessage(<IChatMessage>{
+      text: response,
+      model: chat.model,
+      sender: "AI",
+      chat_ID: chat.ID,
+    });
   }
 
-  private async askChatGPT(model: string, personality: string): Promise<string> {
+  private createMessage(message: IChatMessage): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const context = (<ODataListBinding>this.getView().byId("messageList").getBinding("items")).create(
+        message,
+        false,
+        true
+      );
+      context.created().then(() => {
+        resolve();
+      }, reject);
+      const model = <ODataModel>this.getModel();
+      model.submitBatch(model.getUpdateGroupId());
+    });
+  }
+
+  private async getCompletion(chat: IChat): Promise<string> {
     return new Promise((resolve, reject) => {
       const bindingContext = this.getView().getBindingContext();
       const binding = <ODataContextBinding>(
         this.getModel().bindContext("ChatService.getCompletion(...)", bindingContext)
       );
-      binding.setParameter("model", model);
-      binding.setParameter("personality", personality);
+      binding.setParameter("model", chat.model);
+      binding.setParameter("personality", chat.personality_ID);
+      const dialog = new BusyDialog({ text: "Thinking..." });
+      dialog.open();
       binding.execute().then(
         () => {
           resolve(binding.getBoundContext().getObject().message);
+          dialog.close();
         },
         (error) => {
+          dialog.close();
           MessageBox.alert(error.message, {
             title: "Error",
           });

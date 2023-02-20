@@ -36,7 +36,7 @@ export default class Chats extends BaseController {
         () => (error: any) => {}
       );
       const model = <ODataModel>this.getView().getModel();
-      model.submitBatch(model.getUpdateGroupId()); //.then(resetBusy, resetBusy);
+      model.submitBatch(model.getUpdateGroupId());
     }
   }
 }

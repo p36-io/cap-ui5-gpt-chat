@@ -1,7 +1,5 @@
-import { LayoutType } from "sap/f/library";
 import UIComponent from "sap/ui/core/UIComponent";
 import { support } from "sap/ui/Device";
-import JSONModel from "sap/ui/model/json/JSONModel";
 import models from "./model/models";
 import IconFonts from "./util/IconFonts";
 
@@ -20,14 +18,9 @@ export default class Component extends UIComponent {
     super.init();
 
     this.setModel(models.createDeviceModel(), "device");
-    this.setModel(
-      new JSONModel({
-        layout: LayoutType.TwoColumnsMidExpanded,
-      }),
-      "app"
-    );
+    this.setModel(models.createAppModel(), "app");
 
-    IconFonts.registerIconFonts();
+    IconFonts.register();
 
     // create the views based on the url/hash
     this.getRouter().initialize();
