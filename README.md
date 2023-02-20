@@ -6,6 +6,8 @@ This is a full working sample chat application built with SAP CAP and SAPUI5. It
 
 TBD
 
+![alt text](https://raw.githubusercontent.com/p36-io/cap-ui5-gpt-chat/main/docs/chat_btp.gif "Title")
+
 ## Run the app locally in development mode
 
 ### Prerequisites
