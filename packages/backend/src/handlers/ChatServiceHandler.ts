@@ -27,8 +27,7 @@ export default class ChatServiceHandler {
 
   @Func("getCompletion")
   public async getCompletion(@Req() req: Request): Promise<void> {
-    const { model, personality } = req.data;
-    const [chat] = req.params;
+    const { model, personality, chat } = req.data;
 
     // Read the instructions and build the context of the chat
     const instructions = !personality

@@ -39,6 +39,31 @@
         }
     },
     "requires": {
+        "auth": {
+            "strategy": "mock",
+            "users": {
+                "developer": {
+                    "password": "42",
+                    "ID": "developer",
+                    "userAttributes": {
+                        "email": "developer@p36.io"
+                    },
+                    "roles": [
+                        "human"
+                    ]
+                },
+                "pirate": {
+                    "password": "ahoy",
+                    "ID": "pirate",
+                    "userAttributes": {
+                        "email": "pirate@p36.io"
+                    },
+                    "roles": [
+                        "human"
+                    ]
+                }
+            }
+        },
         "db": {
             "kind": "sqlite",
             "model": [

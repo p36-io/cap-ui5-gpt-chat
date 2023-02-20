@@ -26,7 +26,7 @@ export default class Chat extends BaseController {
    * @param event {sao.ui.base.Event}
    */
   public onRouteMatched(event: UI5Event): void {
-    const chat = event.getParameter("arguments").chat;
+    const { chat } = event.getParameter("arguments");
     this.getView().bindElement({
       path: `/Chats(${chat})`,
     });
@@ -82,13 +82,22 @@ export default class Chat extends BaseController {
     });
   }
 
+  /**
+   *
+   * @param chat {IChat}
+   * @returns {Promise<string>}
+   */
   private async getCompletion(chat: IChat): Promise<string> {
     return new Promise((resolve, reject) => {
-      const bindingContext = this.getView().getBindingContext();
-      const binding = <ODataContextBinding>(
-        this.getModel().bindContext("ChatService.getCompletion(...)", bindingContext)
-      );
+      // REVISIT: Relative binding does not work since CAP seems to have issues with authorizations and nested functions.
+      // const bindingContext = this.getView().getBindingContext();
+      // const binding = <ODataContextBinding>(
+      //   this.getModel().bindContext("ChatService.getCompletion(...)", bindingContext)
+      // );
+
+      const binding = <ODataContextBinding>this.getModel().bindContext("/getCompletion(...)");
       binding.setParameter("model", chat.model);
+      binding.setParameter("chat", chat.ID);
       binding.setParameter("personality", chat.personality_ID);
       const dialog = new BusyDialog({ text: "Thinking..." });
       dialog.open();

@@ -19,19 +19,6 @@ export interface IChats {
   messages: IMessages[];
 }
 
-export enum FuncGetCompletion {
-  name = "getCompletion",
-  paramModel = "model",
-  paramPersonality = "personality",
-}
-
-export interface IFuncGetCompletionParams {
-  model: string;
-  personality: string;
-}
-
-export type FuncGetCompletionReturn = ICompletion;
-
 export interface IMessages {
   ID: string;
   createdAt?: Date;
@@ -60,6 +47,21 @@ export enum FuncGetModels {
 }
 
 export type FuncGetModelsReturn = IModel[];
+
+export enum FuncGetCompletion {
+  name = "getCompletion",
+  paramModel = "model",
+  paramPersonality = "personality",
+  paramChat = "chat",
+}
+
+export interface IFuncGetCompletionParams {
+  model: string;
+  personality: string;
+  chat: string;
+}
+
+export type FuncGetCompletionReturn = ICompletion;
 
 export enum Entity {
   Model = "ChatService.Model",

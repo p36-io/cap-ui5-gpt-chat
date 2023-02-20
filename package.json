@@ -2,7 +2,7 @@
   "name": "p36-cap-ui5-gpt-chat",
   "version": "1.0.0",
   "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
+  "repository": "https://github.com/p36-io/cap-ui5-gpt-chat",
   "license": "MIT",
   "private": true
 }
