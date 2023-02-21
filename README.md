@@ -29,6 +29,50 @@ Ask the AI about SAP BTP:
 
 ![alt text](https://raw.githubusercontent.com/p36-io/cap-ui5-gpt-chat/main/docs/chat_btp.gif "Title")
 
+## Customize the app
+
+Since the app is Open Source, you can simply fork the repository and customize it to your needs.
+
+Without a technical deep dive, there are two ways to easily customize the app:
+
+### Add a new personality
+
+There is currently no UI to administrate personalities, but they can easily be changed in a csv file. Open the file `packages/backend/db/data/p36.capui5gpt.chat-Personalities.csv` and simply add a new line with the following format:
+
+```csv
+<name>,<instruction>
+```
+
+After changing the file you need to redeploy the entities to the database. In the local enviroment you can do this with the following command (please note that this will delete **all data** in the local database):
+
+```bash
+pnpm -r deploy:local
+```
+
+In the Cloud Foundry environment you can simply redeploy the app (no data will be lost).
+
+### Modify the AI model parameters
+
+It is possible to tweak the OpenAI API parameters for the completion request. For more details, see the [OpenAI API documentation](https://beta.openai.com/docs/api-reference/completions/create).
+Simply add the following in the `default-env.json` file in the `packages/backend` folder and change the parameters to your needs:
+
+```json
+{
+  "app_openai": {
+    "apiKey": "YOUR-API-KEY",
+    "completionAttributes": {
+      "max_tokens": 1200,
+      "temperature": 0.8,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0.6
+    }
+  }
+}
+```
+
+When being deployed to the Cloud Foundry environment, you can also change the parameters by changing the values in the `dev.mtaex` file.
+
 ## Run the app locally in development mode
 
 ### Prerequisites
@@ -66,14 +110,7 @@ Put a new file in the folder `packages/backend` called `default-env.json` with t
 ```json
 {
   "app_openai": {
-    "apiKey": "YOUR-API-KEY",
-    "completionAttributes": {
-      "max_tokens": 1200,
-      "temperature": 0.8,
-      "top_p": 1,
-      "frequency_penalty": 0,
-      "presence_penalty": 0.6
-    }
+    "apiKey": "YOUR-API-KEY"
   },
   "VCAP_SERVICES": {}
 }
@@ -89,7 +126,7 @@ pnpm --parallel start:dev
 
 ### Open the app in the browser
 
-Open the following URL in your browser and start chatting: [http://localhost:8080](http://localhost:8080)
+Open the following URL in your browser and start chatting: [http://localhost:8080/local.html](http://localhost:8080/local.html)
 
 You need to login with one of the following credentials:
 
@@ -136,8 +173,6 @@ modules:
           }
         }
 ```
-
-By the way, it's also possible to tweak the OpenAI API parameters for the completion request. For more details, see the [OpenAI API documentation](https://beta.openai.com/docs/api-reference/completions/create).
 
 ### Login to the SAP BTP Cloud Foundry environment
 
