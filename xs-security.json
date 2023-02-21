@@ -1,0 +1,38 @@
+{
+    "xsappname": "capui5gptchat-router",
+    "tenant-mode": "dedicated",
+    "scopes": [
+        {
+            "name": "$XSAPPNAME.human",
+            "description": "Human"
+        }
+    ],
+    "attributes": [],
+    "role-templates": [
+        {
+            "name": "HumanRT",
+            "description": "generated",
+            "scope-references": [
+                "$XSAPPNAME.human"
+            ],
+            "attribute-references": []
+        }
+    ],
+    "role-collections": [
+        {
+            "description": "Chat with an AI as a Human",
+            "name": "CAP UI5 GTP Chat Human",
+            "role-template-references": [
+                "$XSAPPNAME.HumanRT"
+            ]
+        }
+    ],
+    "oauth2-configuration": {
+        "redirect-uris": [
+            "https://localhost:5000/**",
+            "http://localhost:5000/**",
+            "https://*.hana.ondemand.com/**",
+            "https://*.cloud.sap/**"
+        ]
+    }
+}

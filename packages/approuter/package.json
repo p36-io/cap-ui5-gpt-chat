@@ -1,8 +1,8 @@
 {
-    "name": "p36-cap-ui5-gpt-chat-approuter",
+    "name": "@capui5gptchat/approuter",
     "description": "Node.js based application router service for html5-apps",
     "dependencies": {
-        "@sap/approuter": "~14.0.0"
+        "@sap/approuter": "^12"
     },
     "scripts": {
         "start": "node node_modules/@sap/approuter/approuter.js"

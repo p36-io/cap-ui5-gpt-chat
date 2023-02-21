@@ -31,3 +31,5 @@ mta_archives/
 # .vscode
 # .idea
 .env
+packages/frontend/resources
+resources

@@ -7,27 +7,27 @@ import Container from "typedi";
 export class Server {
   public static async run() {
     // @ts-ignore
-    const apiToken = cds.env.for("app")["openai-api-token"];
-    if (!apiToken) {
+    const openaiConfig = <OpenAIConfing>cds.env.for("app")["openai"];
+    if (!openaiConfig.apiKey) {
       throw new Error(
-        `No OpenAI API token provided! Please set the environment variable "{ 'app': { 'openai-api-token': 'xxx' } }"`
+        `No OpenAI API token provided! Please set the environment variable "{ 'app_openai': { 'apiKey': 'xxx' } }"`
       );
     }
+
     useContainer(Container);
-    Container.set("openai-api-token", apiToken);
+    Container.set("openai-config", openaiConfig);
 
     const app = express();
-
-    const hdl = createCombinedHandler({
-      handler: [__dirname + "/handlers/**/*.js"],
-    });
-
     await cds.connect("db");
     await cds
       .serve("all")
       .at("odata")
       .in(app)
-      .with((srv) => hdl(srv));
+      .with((srv) =>
+        createCombinedHandler({
+          handler: [__dirname + "/handlers/**/*.js"],
+        })(srv)
+      );
 
     // Redirect requests to the OData Service
     app.get("/", function (req, res) {

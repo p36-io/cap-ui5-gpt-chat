@@ -1,17 +1,5 @@
 {
-    "welcomeFile": "/index.html",
-    "routes": [
-        {
-            "source": "^(.*)/srv/(.*)$",
-            "authenticationType": "xsuaa",
-            "target": "odata/$2",
-            "destination": "srv_api"
-        },
-        {
-            "source": "^(.*)",
-            "target": "$1",
-            "authenticationType": "xsuaa",
-            "service": "html5-apps-repo-rt"
-        }
-    ]
+    "welcomeFile": "comp36capui5gptchat/index.html",
+    "authenticationMethod": "route",
+    "routes": []
 }

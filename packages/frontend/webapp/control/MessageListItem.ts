@@ -2,7 +2,7 @@ import ListItemBase from "sap/m/ListItemBase";
 import MessageListItemRenderer from "./MessageListItemRenderer";
 
 /**
- * @name com.p36.capui5gptchat.control.MessageListItem
+ * @namespace com.p36.capui5gptchat
  */
 export default class MessageListItem extends ListItemBase {
   static readonly metadata = {

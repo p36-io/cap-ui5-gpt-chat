@@ -17,4 +17,18 @@ export default {
     model.setDefaultBindingMode(BindingMode.OneWay);
     return model;
   },
+
+  createUserModel: async () => {
+    const userModel = new JSONModel();
+    const res = await fetch(sap.ui.require.toUrl("com/p36/capui5gptchat/user-api/currentUser")).catch(
+      (error: Error) => {
+        userModel.setProperty("/displayName", "unknown");
+      }
+    );
+    if ((<Response>res).ok) {
+      const data = (await (<Response>res).json()) as object;
+      userModel.setData(data);
+    }
+    return userModel;
+  },
 };

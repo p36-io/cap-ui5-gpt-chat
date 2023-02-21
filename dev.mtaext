@@ -1,0 +1,19 @@
+ID: capui5gptchat-dev
+_schema-version: 3.3.0
+extends: capui5gptchat
+version: 0.1.0
+
+modules:
+  - name: capui5gptchat-srv
+    properties:     
+      app_openai: >
+        {
+          "apiKey": "<YOUR_API_KEY>",
+          "completionAttributes": {
+            "max_tokens": 1200,
+            "temperature": 0.8,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0.6
+          }
+        }

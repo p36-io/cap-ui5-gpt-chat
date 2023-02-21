@@ -1,0 +1,158 @@
+_schema-version: "3.1"
+ID: capui5gptchat
+description: A ChatGTP-like application built with SAP CAP and SAPUI5.
+version: 1.0.0
+
+parameters:
+  appname: capui5gptchat
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - pnpm install
+        - pnpm run -r build:cf
+
+modules:
+  - name: capui5gptchat-router
+    type: approuter.nodejs
+    path: packages/approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: capui5gptchat-html5-repo-runtime
+      - name: capui5gptchat-destination
+      - name: capui5gptchat-uaa
+      - name: srv-api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          strictSSL: false
+          url: ~{url}
+  - name: capui5gptchat-srv
+    type: nodejs
+    path: packages/backend/gen/srv
+    parameters:
+      disk-quota: 512M
+      memory: 256M
+    requires:
+      - name: capui5gptchat-uaa
+      - name: capui5gptchat-db
+    provides:
+      - name: srv-api
+        properties:
+          url: ${default-url}
+    build-parameters:
+      builder: custom
+      commands:
+        - pnpm run -r --filter @capui5gptchat/backend build
+  - name: capui5gptchat-db-deployer
+    type: hdb
+    path: packages/backend/gen/db
+    requires:
+      - name: capui5gptchat-uaa
+      - name: capui5gptchat-db
+  - name: capui5gptchat-frontend-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: capui5gptchat-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - capui5gptchat-frontend.zip
+          name: capui5gptchat-frontend
+          target-path: resources/
+  - name: capui5gptchat-frontend
+    type: html5
+    path: packages/frontend
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - pnpm run -r --filter @capui5gptchat/frontend build
+      supported-platforms: []
+  - name: capui5gptchat-destination-content
+    type: com.sap.application.content
+    build-parameters:
+      no-source: true
+    requires:
+      - name: capui5gptchat-uaa
+        parameters:
+          service-key:
+            name: html5_repo_uaa_key
+      - name: capui5gptchat-html5-repo-host
+        parameters:
+          service-key:
+            name: html5_repo_host_key
+      - name: capui5gptchat-destination
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: capui5gptchat-html5-repo-host
+              ServiceInstanceName: capui5gptchat-html5-repo-host
+              ServiceKeyName: capui5gptchat-html5-repo-host_key
+              sap.cloud.service: capui5gptchat.service
+            - Name: capui5gptchat-uaa
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: capui5gptchat-uaa
+              ServiceKeyName: capui5gptchat-uaa-key
+              sap.cloud.service: capui5gptchat.service
+
+resources:
+  - name: capui5gptchat-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+  - name: capui5gptchat-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+    properties:
+      hdi-service-name: ${service-name}
+  - name: capui5gptchat-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Name: capui5gptchat-srv
+                Description: CAP UI5 GPT Chat backend service
+                Authentication: NoAuthentication
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/url}
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-plan: lite
+    requires:
+      - name: srv-api
+  - name: capui5gptchat-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: capui5gptchat-html5-repo-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
+      service-name: html5-apps-repo-rt

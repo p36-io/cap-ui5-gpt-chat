@@ -1,18 +1,11 @@
 {
-    "authenticationMethod": "route",
     "welcomeFile": "/index.html",
     "routes": [
         {
             "source": "^/srv/(.*)$",
             "authenticationType": "xsuaa",
-            "csrfProtection": false,
             "target": "/odata/$1",
-            "destination": "capui5gptchat-srv"
-        },
-        {
-            "source": "^/user-api(.*)",
-            "target": "$1",
-            "service": "sap-approuter-userapi"
+            "destination": "srv-api"
         },
         {
             "source": "^(.*)",

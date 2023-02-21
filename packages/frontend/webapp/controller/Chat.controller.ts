@@ -8,6 +8,7 @@ import BusyDialog from "sap/m/BusyDialog";
 import Helper from "../util/Helper";
 import Context from "sap/ui/model/odata/v4/Context";
 import { IChat, IChatMessage } from "../types/tyes";
+import FeedInput from "sap/m/FeedInput";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
@@ -18,6 +19,7 @@ export default class Chat extends BaseController {
    */
   public onInit(): void {
     this.getRouter().getRoute("chat").attachPatternMatched(this.onRouteMatched, this);
+    this.addKeyboardEvents();
   }
 
   /**
@@ -54,6 +56,7 @@ export default class Chat extends BaseController {
     await this.createMessage(<IChatMessage>{
       text: message.trim(),
       model: chat.model,
+      sender: this.getModel("user").getProperty("/displayName"),
       chat_ID: chat.ID,
     });
 
@@ -115,5 +118,17 @@ export default class Chat extends BaseController {
         }
       );
     });
+  }
+
+  private addKeyboardEvents() {
+    const input = <FeedInput>this.getView().byId("newMessageInput");
+    // @ts-ignore
+    input.onkeyup = (event: any) => {
+      if (event.keyCode == 13 && event.metaKey) {
+        input.fireEvent("post", { value: input.getValue() });
+        input.setValue("");
+        event.preventDefault();
+      }
+    };
   }
 }

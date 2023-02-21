@@ -6,6 +6,20 @@
 		"i18n": "i18n/i18n.properties",
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
+		"ach": "set-ach",
+		"crossNavigation": {
+			"inbounds": {
+				"Capui5gptchat-display": {
+					"signature": {
+						"parameters": {},
+						"additionalParameters": "allowed"
+					},
+					"semanticObject": "Capui5gptchat",
+					"action": "display",
+					"icon": "sap-icon://message-popup"
+				}
+			}
+		},
 		"dataSources": {
 			"default": {
 				"uri": "srv/",
@@ -21,7 +35,6 @@
 		}
 	},
 	"sap.ui": {
-		"fullWidth": true,
 		"technology": "UI5",
 		"icons": {},
 		"deviceTypes": {
@@ -31,6 +44,7 @@
 		}
 	},
 	"sap.ui5": {
+		"flexEnabled": true,
 		"resources": {
 			"css": [
 				{
@@ -134,5 +148,9 @@
 				}
 			}
 		}
+	},
+	"sap.cloud": {
+		"public": true,
+		"service": "capui5gptchat.service"
 	}
 }

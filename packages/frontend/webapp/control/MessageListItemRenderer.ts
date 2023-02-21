@@ -3,12 +3,12 @@ import Renderer from "sap/ui/core/Renderer";
 import ListItemBaseRenderer from "sap/m/ListItemBase";
 import MessageListItem from "./MessageListItem";
 import Text from "sap/m/Text";
+import Avatar from "sap/m/Avatar";
 
 // @ts-ignore
-import showdown from "showdown";
+import showdown from "showdown/dist/showdown";
 // @ts-ignore
-import showdownHighlight from "showdown-highlight";
-import Avatar from "sap/m/Avatar";
+import showdownHighlight from "showdown-highlight/lib/index";
 
 const formatMessage = (text: string): string => {
   const regex = /```([a-z]+)? ([\s\S]*?)*```/g;
@@ -30,6 +30,9 @@ const formatMessage = (text: string): string => {
   return html;
 };
 
+/**
+ * @namespace com.p36.capui5gptchat
+ */
 const MessageListItemRenderer = <ListItemBaseRenderer>Renderer.extend(ListItemBaseRenderer);
 
 // @ts-ignore

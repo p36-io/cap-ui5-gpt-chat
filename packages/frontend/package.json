@@ -1,44 +1,44 @@
 {
-  "name": "p36-cap-ui5-gpt-chat-frontend",
+  "name": "@capui5gptchat/frontend",
   "version": "1.0.0",
   "description": "",
   "author": "p36 GmbH",
   "repository": "https://github.com/p36-io/cap-ui5-gpt-chat",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
-    "build": "ui5 build --clean-dest",
-    "build:opt": "ui5 build self-contained --clean-dest --all",
-    "start:local": "ui5 serve --port 8080 -o index.html",
+    "build": "npx ui5 build --clean-dest",
+    "build:opt": "npx ui5 build self-contained --clean-dest --all",
+    "start:local": "npx ui5 serve --port 8080 -o local.html",
     "start:dev": "run-p watch:controls start:local",
-    "start:dist": "ui5 serve  --port 8080 -o index.html --config ui5-dist.yaml",
+    "start:dist": "npx ui5 serve  --port 8080 -o index.html --config ui5-dist.yaml",
     "watch:controls": "npx @ui5/ts-interface-generator --watch",
     "ts-typecheck": "tsc --noEmit",
     "lint": "eslint webapp"
   },
-  "dependencies": {
-    "showdown": "^2.1.0",
-    "showdown-highlight": "^3.1.0"
-  },
   "devDependencies": {
+    "showdown": "^2.1.0",
+    "showdown-highlight": "^3.1.0",
     "npm-run-all": "^4.1.5",
-    "@sapui5/ts-types-esm": "1.108.6",
+    "@sapui5/ts-types-esm": "^1.108.7",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "@ui5/ts-interface-generator": "^0.5.4",
-    "@ui5/cli": "^2.14.14",
+    "@ui5/cli": "^2",
     "eslint": "^8.27.0",
     "typescript": "^4.8.4",
     "ui5-middleware-livereload": "^0.7.0",
     "ui5-tooling-transpile": "^0.2.0",
     "ui5-middleware-cfdestination": "^0.10.6",
-    "ui5-tooling-modules": "^0.7.8"
+    "ui5-tooling-modules": "^0.7.8",
+    "ui5-task-zipper": "^0.7.3"
   },
   "ui5": {
     "dependencies": [
       "ui5-middleware-cfdestination",
       "ui5-middleware-livereload",
       "ui5-tooling-transpile",
-      "ui5-tooling-modules"
+      "ui5-tooling-modules",
+      "ui5-task-zipper"
     ]
   }
 }

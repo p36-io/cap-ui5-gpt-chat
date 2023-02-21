@@ -52,7 +52,7 @@
 		<!-- DynamicPage Footer -->
 		<f:footer>
 			<OverflowToolbar>
-				<FeedInput post="onPostMessage" showIcon="false" />
+				<FeedInput id="newMessageInput" post="onPostMessage" showIcon="false" />
 			</OverflowToolbar>
 		</f:footer>
 	</f:DynamicPage>

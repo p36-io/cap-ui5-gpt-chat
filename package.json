@@ -1,8 +1,17 @@
 {
-  "name": "p36-cap-ui5-gpt-chat",
+  "name": "cap-ui5-gpt-chat",
   "version": "1.0.0",
   "description": "A simple CAP project.",
   "repository": "https://github.com/p36-io/cap-ui5-gpt-chat",
-  "license": "MIT",
-  "private": true
+  "license": "Apache-2.0",
+  "private": true,
+  "devDependencies": {
+    "mbt": "^1.2.23",
+    "npm-run-all": "^4.1.5"
+  },
+  "scripts": {
+    "build:mta": "npx mbt build -p=cf --mtar=cap-ui5-gpt-chat_1.0.0.mtar",
+    "deploy:cf:dev": "cf deploy mta_archives/cap-ui5-gpt-chat_1.0.0.mtar -f -e dev.mtaext",
+    "deploy:dev": "run-s build:mta deploy:cf:dev"
+  }
 }

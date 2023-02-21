@@ -1,10 +1,22 @@
 import { Configuration, OpenAIApi } from "openai";
 import { Service, Inject } from "typedi";
 
+export interface OpenAIConfing {
+  apiKey: string;
+  completionAttributes?: CompletionAttributes;
+}
+export interface CompletionAttributes {
+  max_tokens?: number;
+  temperature?: number;
+  top_p?: number;
+  frequency_penalty?: number;
+  presence_penalty?: number;
+}
+
 @Service()
 export default class OpenAIService {
-  @Inject("openai-api-token")
-  apiKey: string;
+  @Inject("openai-config")
+  config: OpenAIConfing;
 
   private apiInstance: OpenAIApi;
 
@@ -12,7 +24,7 @@ export default class OpenAIService {
     if (!this.apiInstance) {
       this.apiInstance = new OpenAIApi(
         new Configuration({
-          apiKey: this.apiKey,
+          apiKey: this.config.apiKey,
         })
       );
     }
@@ -42,22 +54,24 @@ export default class OpenAIService {
    * @returns  {Promise<string>} the response of the model
    */
   public async getCompletion(prompt: string, model: string = "text-davinci-003"): Promise<string> {
+    console.log(this.config);
+    const attributes = this.config.completionAttributes || {};
     const response = await this.api
       .createCompletion({
         model: model,
         prompt: prompt,
-        max_tokens: 1200,
-        temperature: 0.8,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0.6,
         stop: ["\nHuman:", "\nAI:"],
+        max_tokens: attributes.max_tokens || 1200,
+        temperature: attributes.temperature || 0.8,
+        top_p: attributes.top_p || 1,
+        frequency_penalty: attributes.frequency_penalty || 0,
+        presence_penalty: attributes.presence_penalty || 0.6,
       })
       .then((response) => {
         return response.data.choices[0].text;
       })
       .catch((error) => {
-        return `The OpenAI API sadly returned an error! (Error: ${error.message}`;
+        return `The OpenAI API sadly returned an error! (Error: ${error.message})`;
       });
     return response;
   }
