@@ -19,6 +19,9 @@ export default class Chat extends BaseController {
    */
   public onInit(): void {
     this.getRouter().getRoute("chat").attachPatternMatched(this.onRouteMatched, this);
+  }
+
+  public onAfterRendering(): void {
     this.addKeyboardEvents();
   }
 
@@ -121,9 +124,11 @@ export default class Chat extends BaseController {
   }
 
   private addKeyboardEvents() {
+    console.log("addKeyboardEvents");
+
     const input = <FeedInput>this.getView().byId("newMessageInput");
     // @ts-ignore
-    input.onkeyup = (event: any) => {
+    input.onkeydown = (event: any) => {
       if (event.keyCode == 13 && event.metaKey) {
         input.fireEvent("post", { value: input.getValue() });
         input.setValue("");
