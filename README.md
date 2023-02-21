@@ -1,8 +1,31 @@
 # A ChatGPT-like chat app built with SAP CAP and SAPUI5
 
-This is a full working chat application built with SAP CAP and SAPUI5. It uses a selectable GPT-3 model the [OpenAI API](https://openai.com/blog/openai-api/) to generate responses to the user's prompts. More details can be found in the related blog posts in the SAP Community:
+This is a full working chat application built with the SAP Cloud Application Programming Model and SAPUI5. It uses a selectable GPT-3 model of the [OpenAI API](https://openai.com/blog/openai-api/) to generate responses to the user's prompts. More details can be found in the related blog posts in the SAP Community:
 
 TBD
+
+## Features
+
+- Chat with a selectable GPT-3 model (e.g. `davinci`, `curie`, `babbage`, `ada`) model (similar to [ChatGPT](https://chatgpt.com/))
+- Multi-user support for individual chats
+- Selectable and maintainable personalities for the AI chatbot
+- Chat history for each user (everything is stored in a database)
+- Code-Highlighting for code snippets in the chat history
+- Ready to be deployed to SAP BTP Cloud Foundry
+
+### Technical Aspects
+
+- Full TypeScript implementation in backend (SAP CAP) and frontend (SAPUI5)
+- Usage of advanced TypeScript features like decorators and dependency injection in the backend
+- Chat UI built with SAPUI5 including a custom list item control and with the integration of external modules
+
+## Demo
+
+Ask the AI for help with SAPUI5:
+
+![alt text](https://raw.githubusercontent.com/p36-io/cap-ui5-gpt-chat/main/docs/chat_sapui5.gif "Title")
+
+Ask the AI about SAP BTP:
 
 ![alt text](https://raw.githubusercontent.com/p36-io/cap-ui5-gpt-chat/main/docs/chat_btp.gif "Title")
 
