@@ -10,7 +10,7 @@ import showdown from "showdown/dist/showdown";
 // @ts-ignore
 import showdownHighlight from "showdown-highlight/lib/index";
 
-const formatMessage = (text: string): string => {
+const markdownToHtml = (text: string): string => {
   const regex = /```([a-z]+)? ([\s\S]*?)*```/g;
   const matches = text.match(regex);
   if (matches) {
@@ -38,13 +38,11 @@ const MessageListItemRenderer = <ListItemBaseRenderer>Renderer.extend(ListItemBa
 // @ts-ignore
 MessageListItemRenderer.renderLIContent = function (rm: RenderManager, control: MessageListItem) {
   rm.openStart("div").class("sapMMessageListItem").openEnd();
-
   rm.openStart("div").class("sapMMessageListItemText").openEnd();
-  rm.unsafeHtml(formatMessage(control.getMessage()));
+  rm.unsafeHtml(markdownToHtml(control.getMessage()));
   rm.close("div");
 
   rm.openStart("div").class("sapMMessageListItemHeader").openEnd();
-
   rm.renderControl(<Avatar>control.getAggregation("avatar"));
 
   rm.openStart("div").class("sapMMessageListItemInfo").openEnd();
@@ -54,7 +52,6 @@ MessageListItemRenderer.renderLIContent = function (rm: RenderManager, control: 
   rm.close("div");
 
   rm.close("div");
-
   rm.close("div");
 };
 

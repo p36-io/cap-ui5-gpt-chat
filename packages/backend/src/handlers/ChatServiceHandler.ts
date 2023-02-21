@@ -19,7 +19,7 @@ export default class ChatServiceHandler {
 
   @Func("getModels")
   public async getModels(@Req() req: Request): Promise<void> {
-    const models = await this.openAIService.getModels().catch((error) => {
+    const models = await this.openAIService.readModels().catch((error) => {
       req.notify(500, error.message);
     });
     req.reply(models);
@@ -35,11 +35,11 @@ export default class ChatServiceHandler {
       : await (
           await this.personalityService.getPersonality(<string>personality)
         ).instructions;
-    const context = await this.chatService.getContext(<string>chat);
+    const conversation = await this.chatService.getChatAsString(<string>chat);
 
     // Call the OpenAI API
-    const prompt = `${instructions}\n\n${context}\nAI:}`;
-    const response = await this.openAIService.getCompletion(prompt, model).catch((error) => {
+    const prompt = `${instructions}\n\n${conversation}\nAI:`;
+    const response = await this.openAIService.createCompletion(prompt, model).catch((error) => {
       req.notify(500, error.message);
     });
     req.reply({

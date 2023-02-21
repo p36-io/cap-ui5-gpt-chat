@@ -2,7 +2,7 @@ import Dialog from "sap/m/Dialog";
 import Fragment from "sap/ui/core/Fragment";
 import View from "sap/ui/core/mvc/View";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import { IChat } from "../types/tyes";
+import { IChat } from "../types/types";
 
 export default class NewChatDialog {
   private static promiseResolver: any;

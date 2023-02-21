@@ -7,7 +7,7 @@ import MessageBox from "sap/m/MessageBox";
 import BusyDialog from "sap/m/BusyDialog";
 import Helper from "../util/Helper";
 import Context from "sap/ui/model/odata/v4/Context";
-import { IChat, IChatMessage } from "../types/tyes";
+import { IChat, IChatMessage } from "../types/types";
 import FeedInput from "sap/m/FeedInput";
 
 /**

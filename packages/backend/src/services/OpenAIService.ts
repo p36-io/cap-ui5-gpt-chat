@@ -36,7 +36,7 @@ export default class OpenAIService {
    *
    * @returns {Promise<{ id: string }[]>} the list of models
    */
-  public async getModels(): Promise<{ id: string }[]> {
+  public async readModels(): Promise<{ id: string }[]> {
     return this.api.listModels().then((response) =>
       response.data.data.map((model) => {
         return {
@@ -53,7 +53,7 @@ export default class OpenAIService {
    * @param model {string}
    * @returns  {Promise<string>} the response of the model
    */
-  public async getCompletion(prompt: string, model: string = "text-davinci-003"): Promise<string> {
+  public async createCompletion(prompt: string, model: string = "text-davinci-003"): Promise<string> {
     console.log(this.config);
     const attributes = this.config.completionAttributes || {};
     const response = await this.api
