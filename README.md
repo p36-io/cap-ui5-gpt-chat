@@ -137,3 +137,11 @@ The `mta.yaml` file contains all relevant services and modules:
 - The `capui5gptchat-frontend` module including the SAPUI5 frontend
 
 The app will be accessible via managed approuter as well as via the standalone approuter.
+
+## How to obtain Support
+
+This content is provided "as-is" without warranties or conditions of any kind.
+
+## License
+
+Copyright (c) 2023 p36 GmbH. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
