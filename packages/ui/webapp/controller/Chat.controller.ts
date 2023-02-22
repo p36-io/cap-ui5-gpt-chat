@@ -60,24 +60,34 @@ export default class Chat extends BaseController {
     const chatService = this.getChatService();
     const binding = <ODataListBinding>this.getView().byId("messageList").getBinding("items");
 
-    await chatService.createMessage(
+    await chatService.createEntity<IMessages>(
       <IMessages>{
         text: message.trim(),
         model: chat.model,
         sender: this.getModel("user").getProperty("/displayName"),
         chat_ID: chat.ID,
       },
-      binding
+      binding,
+      false,
+      true
     );
 
-    await chatService.createMessage(
+    const completion = await chatService.getCompletion({
+      chat: chat.ID,
+      model: chat.model,
+      personality: chat.personality_ID,
+    });
+
+    await chatService.createEntity<IMessages>(
       <IMessages>{
-        text: (await chatService.getCompletion(chat)).message,
+        text: completion.message,
         model: chat.model,
         sender: "AI",
         chat_ID: chat.ID,
       },
-      binding
+      binding,
+      false,
+      true
     );
   }
 

@@ -45,7 +45,7 @@ export default class Chats extends BaseController {
     let chat = await NewChatDialog.open(this.getView()).catch(() => {});
     if (chat) {
       const binding = <ODataListBinding>this.getView().byId("chatList").getBinding("items");
-      chat = await this.getChatService().createChat(chat, binding);
+      chat = await this.getChatService().createEntity(chat, binding);
       this.getRouter().navTo("chat", {
         chat: chat.ID,
       });
