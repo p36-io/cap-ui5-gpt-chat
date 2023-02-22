@@ -2,7 +2,8 @@
 
 This is a full working chat application built with the SAP Cloud Application Programming Model and SAPUI5. It uses a selectable GPT-3 model of the [OpenAI API](https://openai.com/blog/openai-api/) to generate responses to the user's prompts. More details can be found in the related blog posts in the SAP Community:
 
-TBD
+- [ChatGPT-like chat app built with SAP CAP and SAPUI5 - Part 1](https://blogs.sap.com/2023/02/22/a-chatgpt-like-chat-app-built-with-modern-sap-technologies-cap-sapui5-part-1-2/)
+- ChatGPT-like chat app built with SAP CAP and SAPUI5 - Part 2 (coming soon)
 
 ## Features
 
