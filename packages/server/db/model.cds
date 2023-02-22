@@ -12,8 +12,8 @@ entity Personalities : cuid, managed {
 }
 
 entity Chats : cuid, managed {
-    topic       : String;
-    model       : String;
+    topic       : String @mandatory;
+    model       : String @mandatory;
     personality : Association to one Personalities;
     messages    : Composition of many Messages
                       on messages.chat = $self;
@@ -21,7 +21,7 @@ entity Chats : cuid, managed {
 
 entity Messages : cuid, managed {
     text   : LargeString;
-    model  : String;
+    model  : String @mandatory;
     sender : User;
     chat   : Association to one Chats;
 }

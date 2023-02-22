@@ -12,7 +12,7 @@
 						<Button type="Emphasized" icon="sap-icon://add" press="onAddChat" />
 					</Toolbar>
 				</headerToolbar>
-				<StandardListItem type="Navigation" title="{topic}" description="{model} | {= ${personality/name} || 'none' }"></StandardListItem>
+				<StandardListItem visible="{= ${ID} === ''}" type="Navigation" title="{topic}" description="{model} | {= ${personality/name} || 'none' }"></StandardListItem>
 			</List>
 		</content>
 	</Page>
