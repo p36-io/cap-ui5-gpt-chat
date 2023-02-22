@@ -6,11 +6,15 @@ import ResourceModel from "sap/ui/model/resource/ResourceModel";
 import ResourceBundle from "sap/base/i18n/ResourceBundle";
 import Router from "sap/ui/core/routing/Router";
 import History from "sap/ui/core/routing/History";
+import ChatService from "../service/ChatService";
+import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
  */
 export default abstract class BaseController extends Controller {
+  private chatService: ChatService;
+
   /**
    * Convenience method for accessing the component of the controller's view.
    * @returns The component of the controller's view
@@ -20,8 +24,21 @@ export default abstract class BaseController extends Controller {
   }
 
   /**
+   * Getter for the chat service to query OData calls.
+   *
+   * @returns {ChatService}
+   */
+  public getChatService(): ChatService {
+    if (!this.chatService) {
+      this.chatService = new ChatService(<ODataModel>this.getModel());
+    }
+    return this.chatService;
+  }
+
+  /**
    * Convenience method to get the components' router instance.
-   * @returns The router instance
+   *
+   * @returns {sap.ui.core.routing.Router} The router instance
    */
   public getRouter(): Router {
     return UIComponent.getRouterFor(this);

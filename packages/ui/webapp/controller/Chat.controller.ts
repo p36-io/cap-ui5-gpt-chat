@@ -1,14 +1,10 @@
 import BaseController from "./BaseController";
-import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
-import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import UI5Event from "sap/ui/base/Event";
-import ODataContextBinding from "sap/ui/model/odata/v4/ODataContextBinding";
-import MessageBox from "sap/m/MessageBox";
-import BusyDialog from "sap/m/BusyDialog";
 import Helper from "../util/Helper";
 import Context from "sap/ui/model/odata/v4/Context";
-import { IChat, IChatMessage } from "../types/types";
+import { IMessages, IChats } from "../types/ChatService";
 import FeedInput from "sap/m/FeedInput";
+import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
@@ -21,14 +17,18 @@ export default class Chat extends BaseController {
     this.getRouter().getRoute("chat").attachPatternMatched(this.onRouteMatched, this);
   }
 
+  /**
+   * Called when the view is rendered for the first time.
+   */
   public onAfterRendering(): void {
-    this.addKeyboardEvents();
+    this.addKeyboardEventsToInput();
   }
 
   /**
+   * Event handler for the route matched event.
+   * Binds the chat to the view.
    *
-   *
-   * @param event {sao.ui.base.Event}
+   * @param event {sap.ui.base.Event}
    */
   public onRouteMatched(event: UI5Event): void {
     const { chat } = event.getParameter("arguments");
@@ -43,89 +43,50 @@ export default class Chat extends BaseController {
    * @param event {sap.ui.base.Event}
    */
   public onDeleteChat(event: UI5Event): void {
-    Helper.withConfirmation("Delete Chat", "Are you sure you want to delete this chat?", () => {
-      (<Context>this.getView().getBindingContext()).delete();
-      const model = <ODataModel>this.getModel();
-      model.submitBatch(model.getUpdateGroupId()).then(() => {
-        this.getRouter().navTo("home");
-      });
-    });
-  }
-
-  public async onPostMessage(event: UI5Event): Promise<void> {
-    const message = event.getParameter("value");
-    const chat = <any>this.getView().getBindingContext().getObject();
-
-    await this.createMessage(<IChatMessage>{
-      text: message.trim(),
-      model: chat.model,
-      sender: this.getModel("user").getProperty("/displayName"),
-      chat_ID: chat.ID,
-    });
-
-    const response = await this.getCompletion(chat);
-
-    await this.createMessage(<IChatMessage>{
-      text: response,
-      model: chat.model,
-      sender: "AI",
-      chat_ID: chat.ID,
-    });
-  }
-
-  private createMessage(message: IChatMessage): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const context = (<ODataListBinding>this.getView().byId("messageList").getBinding("items")).create(
-        message,
-        false,
-        true
-      );
-      context.created().then(() => {
-        resolve();
-      }, reject);
-      const model = <ODataModel>this.getModel();
-      model.submitBatch(model.getUpdateGroupId());
+    Helper.withConfirmation("Delete Chat", "Are you sure you want to delete this chat?", async () => {
+      await this.getChatService().deleteChat(<Context>this.getView().getBindingContext());
+      this.getRouter().navTo("home");
     });
   }
 
   /**
+   * Event handler for the input field to post a message.
    *
-   * @param chat {IChat}
-   * @returns {Promise<string>}
+   * @param event {sap.ui.base.Event}
    */
-  private async getCompletion(chat: IChat): Promise<string> {
-    return new Promise((resolve, reject) => {
-      // REVISIT: Relative binding does not work since CAP seems to have issues with authorizations and nested functions.
-      // const bindingContext = this.getView().getBindingContext();
-      // const binding = <ODataContextBinding>(
-      //   this.getModel().bindContext("ChatService.getCompletion(...)", bindingContext)
-      // );
+  public async onPostMessage(event: UI5Event): Promise<void> {
+    const message = event.getParameter("value");
+    const chat = <IChats>this.getView().getBindingContext().getObject();
+    const chatService = this.getChatService();
+    const binding = <ODataListBinding>this.getView().byId("messageList").getBinding("items");
 
-      const binding = <ODataContextBinding>this.getModel().bindContext("/getCompletion(...)");
-      binding.setParameter("model", chat.model);
-      binding.setParameter("chat", chat.ID);
-      binding.setParameter("personality", chat.personality_ID);
-      const dialog = new BusyDialog({ text: "Thinking..." });
-      dialog.open();
-      binding.execute().then(
-        () => {
-          resolve(binding.getBoundContext().getObject().message);
-          dialog.close();
-        },
-        (error) => {
-          dialog.close();
-          MessageBox.alert(error.message, {
-            title: "Error",
-          });
-          reject(error);
-        }
-      );
-    });
+    await chatService.createMessage(
+      <IMessages>{
+        text: message.trim(),
+        model: chat.model,
+        sender: this.getModel("user").getProperty("/displayName"),
+        chat_ID: chat.ID,
+      },
+      binding
+    );
+
+    await chatService.createMessage(
+      <IMessages>{
+        text: (await chatService.getCompletion(chat)).message,
+        model: chat.model,
+        sender: "AI",
+        chat_ID: chat.ID,
+      },
+      binding
+    );
   }
 
-  private addKeyboardEvents() {
-    console.log("addKeyboardEvents");
-
+  /**
+   * Add a keydown event listener to the input field to allow the user to post a message by pressing
+   * the meta key (command key on Mac) and the enter key.
+   * @private
+   **/
+  private addKeyboardEventsToInput(): void {
     const input = <FeedInput>this.getView().byId("newMessageInput");
     // @ts-ignore
     input.onkeydown = (event: any) => {
