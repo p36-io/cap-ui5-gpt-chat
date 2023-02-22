@@ -16,7 +16,7 @@ importers:
     dependencies:
       '@sap/approuter': 12.0.3
 
-  packages/backend:
+  packages/server:
     specifiers:
       '@sap/cds': ^6
       '@sap/cds-dk': ^6
@@ -57,7 +57,7 @@ importers:
       ts-node: 10.9.1_4bewfcp2iebiwuold25d6rgcsy
       typescript: 4.9.5
 
-  packages/frontend:
+  packages/ui:
     specifiers:
       '@sapui5/ts-types-esm': ^1.108.7
       '@typescript-eslint/eslint-plugin': ^5.42.1

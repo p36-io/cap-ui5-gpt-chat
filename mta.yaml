@@ -34,7 +34,7 @@ modules:
           url: ~{url}
   - name: capui5gptchat-srv
     type: nodejs
-    path: packages/backend/gen/srv
+    path: packages/server/gen/srv
     parameters:
       disk-quota: 512M
       memory: 256M
@@ -48,14 +48,14 @@ modules:
     build-parameters:
       builder: custom
       commands:
-        - pnpm run -r --filter @capui5gptchat/backend build
+        - pnpm run -r --filter @capui5gptchat/server build
   - name: capui5gptchat-db-deployer
     type: hdb
-    path: packages/backend/gen/db
+    path: packages/server/gen/db
     requires:
       - name: capui5gptchat-uaa
       - name: capui5gptchat-db
-  - name: capui5gptchat-frontend-content
+  - name: capui5gptchat-ui-content
     type: com.sap.application.content
     path: .
     requires:
@@ -66,17 +66,17 @@ modules:
       build-result: resources
       requires:
         - artifacts:
-            - capui5gptchat-frontend.zip
-          name: capui5gptchat-frontend
+            - capui5gptchat-ui.zip
+          name: capui5gptchat-ui
           target-path: resources/
-  - name: capui5gptchat-frontend
+  - name: capui5gptchat-ui
     type: html5
-    path: packages/frontend
+    path: packages/ui
     build-parameters:
       build-result: dist
       builder: custom
       commands:
-        - pnpm run -r --filter @capui5gptchat/frontend build
+        - pnpm run -r --filter @capui5gptchat/ui build
       supported-platforms: []
   - name: capui5gptchat-destination-content
     type: com.sap.application.content
@@ -132,7 +132,7 @@ resources:
           instance:
             destinations:
               - Name: capui5gptchat-srv
-                Description: CAP UI5 GPT Chat backend service
+                Description: CAP UI5 GPT Chat server service
                 Authentication: NoAuthentication
                 ProxyType: Internet
                 Type: HTTP

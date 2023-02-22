@@ -38,7 +38,7 @@ Without a technical deep dive, there are two ways to easily customize the app:
 
 ### Add a new personality
 
-There is currently no UI to administrate personalities, but they can easily be changed in a csv file. Open the file `packages/backend/db/data/p36.capui5gpt.chat-Personalities.csv` and simply add a new line with the following format:
+There is currently no UI to administrate personalities, but they can easily be changed in a csv file. Open the file `packages/server/db/data/p36.capui5gpt.chat-Personalities.csv` and simply add a new line with the following format:
 
 ```csv
 <name>,<instruction>
@@ -55,7 +55,7 @@ In the Cloud Foundry environment you can simply redeploy the app (no data will b
 ### Modify the AI model parameters
 
 It is possible to tweak the OpenAI API parameters for the completion request. For more details, see the [OpenAI API documentation](https://beta.openai.com/docs/api-reference/completions/create).
-Simply add the following in the `default-env.json` file in the `packages/backend` folder and change the parameters to your needs:
+Simply add the following in the `default-env.json` file in the `packages/server` folder and change the parameters to your needs:
 
 ```json
 {
@@ -106,7 +106,7 @@ pnpm -r deploy:local
 
 ### Add your OpenAI API key
 
-Put a new file in the folder `packages/backend` called `default-env.json` with the following content and add your OpenAI API key:
+Put a new file in the folder `packages/server` called `default-env.json` with the following content and add your OpenAI API key:
 
 ```json
 {
@@ -119,7 +119,7 @@ Put a new file in the folder `packages/backend` called `default-env.json` with t
 
 ### Start the app in development mode
 
-The following command will start the app in development mode. Backend and frontend will be started in parallel.
+The following command will start the app in development mode. Server and UI will be started in parallel.
 
 ```bash
 pnpm --parallel start:dev
@@ -192,8 +192,8 @@ pnpm deploy:dev
 The `mta.yaml` file contains all relevant services and modules:
 
 - The `capui5gptchat-router` module for a standalone approuter
-- The `capui5gptchat-backend` module including the CAP backend
-- The `capui5gptchat-frontend` module including the SAPUI5 frontend
+- The `capui5gptchat-server` module including the CAP backend
+- The `capui5gptchat-ui` module including the SAPUI5 frontend
 
 The app will be accessible via managed approuter as well as via the standalone approuter.
 

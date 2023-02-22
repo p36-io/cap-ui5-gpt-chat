@@ -1,5 +1,5 @@
 {
-  "name": "@capui5gptchat/backend",
+  "name": "@capui5gptchat/server",
   "version": "1.0.0",
   "description": "A simple CAP project.",
   "repository": "https://github.com/p36-io/cap-ui5-gpt-chat",
