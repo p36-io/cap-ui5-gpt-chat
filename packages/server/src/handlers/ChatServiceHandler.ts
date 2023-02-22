@@ -4,6 +4,7 @@ import { Inject, Service } from "typedi";
 import ChatBuilder from "../services/ChatBuilder";
 import OpenAIService from "../services/OpenAIService";
 import PersonalitiesRespository from "../services/PersonalitiesRespository";
+import { FuncGetCompletionReturn, FuncGetModelsReturn } from "../types/ChatService";
 
 @Handler()
 @Service()
@@ -18,11 +19,11 @@ export default class ChatServiceHandler {
   private personalityRepository: PersonalitiesRespository;
 
   @Func("getModels")
-  public async getModels(@Req() req: Request): Promise<void> {
+  public async getModels(@Req() req: Request): Promise<FuncGetModelsReturn> {
     const models = await this.openAIService.readModels().catch((error) => {
       req.notify(500, error.message);
     });
-    req.reply(models);
+    return <FuncGetModelsReturn>models;
   }
 
   @Func("getCompletion")
@@ -31,7 +32,7 @@ export default class ChatServiceHandler {
     @Param("personality") personalityId: string,
     @Param("chat") chatId: string,
     @Req() req: Request
-  ): Promise<void> {
+  ): Promise<FuncGetCompletionReturn> {
     const chat = await this.chatBuilder.getChatAsString(<string>chatId);
     let prompt = `${chat}\nAI:`;
 
@@ -43,8 +44,9 @@ export default class ChatServiceHandler {
     const response = await this.openAIService.createCompletion(prompt, model).catch((error) => {
       req.notify(500, error.message);
     });
-    req.reply({
+
+    return <FuncGetCompletionReturn>{
       message: response,
-    });
+    };
   }
 }
