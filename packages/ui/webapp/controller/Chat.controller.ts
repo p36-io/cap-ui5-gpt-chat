@@ -44,7 +44,7 @@ export default class Chat extends BaseController {
    */
   public onDeleteChat(event: UI5Event): void {
     Helper.withConfirmation("Delete Chat", "Are you sure you want to delete this chat?", async () => {
-      await this.getChatService().deleteChat(<Context>this.getView().getBindingContext());
+      await this.getChatService().deleteEntity(<Context>this.getView().getBindingContext());
       this.getRouter().navTo("home");
     });
   }
