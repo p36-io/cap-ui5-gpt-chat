@@ -1,9 +1,9 @@
 import { Request } from "@sap/cds/apis/services";
-import { Func, Handler, Req } from "cds-routing-handlers";
+import { Func, Handler, Param, Req } from "cds-routing-handlers";
 import { Inject, Service } from "typedi";
-import ChatService from "../services/ChatService";
+import ChatBuilder from "../services/ChatBuilder";
 import OpenAIService from "../services/OpenAIService";
-import PersonalitiesService from "../services/PersonalitiesService";
+import PersonalitiesRespository from "../services/PersonalitiesRespository";
 
 @Handler()
 @Service()
@@ -12,10 +12,10 @@ export default class ChatServiceHandler {
   private openAIService: OpenAIService;
 
   @Inject()
-  private chatService: ChatService;
+  private chatBuilder: ChatBuilder;
 
   @Inject()
-  private personalityService: PersonalitiesService;
+  private personalityRepository: PersonalitiesRespository;
 
   @Func("getModels")
   public async getModels(@Req() req: Request): Promise<void> {
@@ -26,19 +26,20 @@ export default class ChatServiceHandler {
   }
 
   @Func("getCompletion")
-  public async getCompletion(@Req() req: Request): Promise<void> {
-    const { model, personality, chat } = req.data;
+  public async getCompletion(
+    @Param("model") model: string,
+    @Param("personality") personalityId: string,
+    @Param("chat") chatId: string,
+    @Req() req: Request
+  ): Promise<void> {
+    const chat = await this.chatBuilder.getChatAsString(<string>chatId);
+    let prompt = `${chat}\nAI:`;
 
-    // Read the instructions and build the context of the chat
-    const instructions = !personality
-      ? ""
-      : await (
-          await this.personalityService.getPersonality(<string>personality)
-        ).instructions;
-    const conversation = await this.chatService.getChatAsString(<string>chat);
+    if (personalityId) {
+      const { instructions } = await this.personalityRepository.getPersonality(<string>personalityId);
+      prompt = `${instructions}\n\n${prompt}`;
+    }
 
-    // Call the OpenAI API
-    const prompt = `${instructions}\n\n${conversation}\nAI:`;
     const response = await this.openAIService.createCompletion(prompt, model).catch((error) => {
       req.notify(500, error.message);
     });

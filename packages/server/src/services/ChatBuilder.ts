@@ -2,7 +2,7 @@ import { Service } from "typedi";
 import { Entity } from "../types/p36.capui5gpt.chat";
 
 @Service()
-export default class ChatService {
+export default class ChatBuilder {
   /**
    * Read all messages fromt the chat and provide a string representation.
    *

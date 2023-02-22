@@ -2,7 +2,7 @@ import { Service } from "typedi";
 import { IPersonalities, Entity } from "../types/p36.capui5gpt.chat";
 
 @Service()
-export default class PersonalitiesService {
+export default class PersonalitiesRespository {
   /**
    *
    * @param personalityId
