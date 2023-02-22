@@ -54,7 +54,6 @@ export default class OpenAIService {
    * @returns  {Promise<string>} the response of the model
    */
   public async createCompletion(prompt: string, model: string = "text-davinci-003"): Promise<string> {
-    console.log(this.config);
     const attributes = this.config.completionAttributes || {};
     const response = await this.api
       .createCompletion({
