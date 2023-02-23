@@ -1,5 +1,8 @@
 import IconPool from "sap/ui/core/IconPool";
 
+/**
+ * @namespace com.p36.capui5gptchat.util
+ */
 export default class IconFonts {
   public static register(): void {
     IconPool.registerFont({

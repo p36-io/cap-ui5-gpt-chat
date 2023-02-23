@@ -5,6 +5,9 @@ import Control from "sap/ui/core/Control";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import { support } from "sap/ui/Device";
 
+/**
+ * @namespace com.p36.capui5gptchat.util
+ */
 export default class Helper {
   static contentDensityClass: string;
 

@@ -1,3 +1,7 @@
+export enum Sender {
+  AI = "AI",
+}
+
 export interface IPersonalities {
   ID: string;
   createdAt?: Date;

@@ -3,6 +3,7 @@ using {
     managed,
     User
 } from '@sap/cds/common';
+using p36.capui5gpt.chat.types from './types';
 
 namespace p36.capui5gpt.chat;
 

@@ -3,7 +3,8 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f"
 	xmlns:custom="com.p36.capui5gptchat.control" core:require="{
-        Helper: 'com/p36/capui5gptchat/util/Helper'
+        Helper: 'com/p36/capui5gptchat/util/Helper',
+		Formatter: 'com/p36/capui5gptchat/util/Formatter'
 	}"
 	xmlns:layout="sap.ui.layout" height="100%">
 
@@ -43,7 +44,7 @@
 				<List id="messageList" showNoData="false" showSeparators="Inner" items="{ path: 'messages', sorter: { path: 'createdAt', descending: false }}">
 					<custom:MessageListItem message="{text}" sender="{sender}" date="{createdAt}">
 						<custom:avatar>
-							<Avatar displaySize="S" src="{= ${sender} === 'AI' ? 'sap-icon://tnt/robot' : 'sap-icon://tnt/user' }" displayShape="Square" backgroundColor="Transparent" />
+							<Avatar displaySize="S" src="{ path: 'sender', formatter: 'Formatter.senderIcon' }" displayShape="Square" backgroundColor="Transparent" />
 						</custom:avatar>
 					</custom:MessageListItem>
 				</List>

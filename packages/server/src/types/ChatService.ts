@@ -1,9 +1,5 @@
-export interface IModel {
-  id: string;
-}
-
-export interface ICompletion {
-  message: string;
+export enum Sender {
+  AI = "AI",
 }
 
 export interface IChats {
@@ -42,6 +38,14 @@ export interface IPersonalities {
   instructions: string;
 }
 
+export interface IModel {
+  id: string;
+}
+
+export interface ICompletion {
+  message: string;
+}
+
 export enum FuncGetModels {
   name = "getModels",
 }
@@ -64,17 +68,17 @@ export interface IFuncGetCompletionParams {
 export type FuncGetCompletionReturn = ICompletion;
 
 export enum Entity {
-  Model = "ChatService.Model",
-  Completion = "ChatService.Completion",
   Chats = "ChatService.Chats",
   Messages = "ChatService.Messages",
   Personalities = "ChatService.Personalities",
+  Model = "ChatService.types.Model",
+  Completion = "ChatService.types.Completion",
 }
 
 export enum SanitizedEntity {
-  Model = "Model",
-  Completion = "Completion",
   Chats = "Chats",
   Messages = "Messages",
   Personalities = "Personalities",
+  Model = "Model",
+  Completion = "Completion",
 }

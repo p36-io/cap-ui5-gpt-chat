@@ -2,7 +2,7 @@ import BaseController from "./BaseController";
 import UI5Event from "sap/ui/base/Event";
 import Helper from "../util/Helper";
 import Context from "sap/ui/model/odata/v4/Context";
-import { IMessages, IChats } from "../types/ChatService";
+import { IMessages, IChats, Sender } from "../types/ChatService";
 import FeedInput from "sap/m/FeedInput";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import UserModel from "../model/UserModel";
@@ -83,7 +83,7 @@ export default class Chat extends BaseController {
       <IMessages>{
         text: completion.message,
         model: chat.model,
-        sender: "AI",
+        sender: Sender.AI,
         chat_ID: chat.ID,
       },
       binding,
