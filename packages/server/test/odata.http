@@ -1,0 +1,47 @@
+
+@host = http://localhost:3001
+@auth = Basic pirate:ahoy
+@model = text-davinci-003
+
+
+### Call the function to get the list of OpenAI models
+GET {{host}}/odata/getModels()
+Authorization: {{auth}}
+
+
+### Create a chat
+# @name createChat
+POST {{host}}/odata/Chats
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+  "topic": "An example chat",
+  "model": "{{model}}"
+}
+
+### Store the chat ID
+@chatId = {{createChat.response.body.ID}}
+
+### Create a message
+# @name createMessage
+POST {{host}}/odata/Messages
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+  "text": "Do you think I'm a pirate?",
+  "model": "{{model}}",
+  "sender": "Me",
+  "chat_ID": "{{chatId}}"
+}
+
+
+### Get a specific chat including the messages
+GET {{host}}/odata/Chats({{chatId}})?$expand=messages
+Authorization: {{auth}}
+
+
+### Call the function to get a completion
+GET {{host}}/odata/getCompletion(model='{{model}}',chat='{{chatId}}',personality='')
+Authorization: Basic pirate:ahoy
