@@ -41,7 +41,7 @@
 		<f:content>
 			<VBox class="sapUiLargeMarginBottom">
 				<List id="messageList" showNoData="false" showSeparators="Inner" items="{ path: 'messages', sorter: { path: 'createdAt', descending: false }}">
-					<custom:MessageListItem message="{text}" sender="{= ${sender} || 'unknown' }" date="{createdAt}">
+					<custom:MessageListItem message="{text}" sender="{sender}" date="{createdAt}">
 						<custom:avatar>
 							<Avatar displaySize="S" src="{= ${sender} === 'AI' ? 'sap-icon://tnt/robot' : 'sap-icon://tnt/user' }" displayShape="Square" backgroundColor="Transparent" />
 						</custom:avatar>

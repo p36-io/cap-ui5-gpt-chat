@@ -2,6 +2,7 @@ import JSONModel from "sap/ui/model/json/JSONModel";
 import BindingMode from "sap/ui/model/BindingMode";
 import * as Device from "sap/ui/Device";
 import { LayoutType } from "sap/f/library";
+import UserModel from "./UserModel";
 
 export default {
   createDeviceModel: () => {
@@ -19,16 +20,8 @@ export default {
   },
 
   createUserModel: async () => {
-    const userModel = new JSONModel();
-    const res = await fetch(sap.ui.require.toUrl("com/p36/capui5gptchat/user-api/currentUser")).catch(
-      (error: Error) => {
-        userModel.setProperty("/displayName", "unknown");
-      }
-    );
-    if ((<Response>res).ok) {
-      const data = (await (<Response>res).json()) as object;
-      userModel.setData(data);
-    }
+    const userModel = new UserModel();
+    await userModel.initialize();
     return userModel;
   },
 };

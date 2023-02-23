@@ -5,6 +5,7 @@ import Context from "sap/ui/model/odata/v4/Context";
 import { IMessages, IChats } from "../types/ChatService";
 import FeedInput from "sap/m/FeedInput";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
+import UserModel from "../model/UserModel";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
@@ -64,7 +65,7 @@ export default class Chat extends BaseController {
       <IMessages>{
         text: message.trim(),
         model: chat.model,
-        sender: this.getModel("user").getProperty("/displayName"),
+        sender: (<UserModel>this.getModel("user")).getUser().displayName,
         chat_ID: chat.ID,
       },
       binding,
