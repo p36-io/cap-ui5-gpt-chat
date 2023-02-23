@@ -6,6 +6,7 @@ import { IMessages, IChats, Sender } from "../types/ChatService";
 import FeedInput from "sap/m/FeedInput";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import UserModel from "../model/UserModel";
+import List from "sap/m/List";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
@@ -90,6 +91,18 @@ export default class Chat extends BaseController {
       false,
       true
     );
+
+    this.scrollToBottom(100);
+  }
+
+  /**
+   * Scroll to the bottom of the message list with a timeout.
+   */
+  private scrollToBottom(timeout: number): void {
+    setTimeout(() => {
+      const lastItem = (<List>this.getView().byId("messageList")).getItems();
+      lastItem[lastItem.length - 1].getDomRef().scrollIntoView({ behavior: "smooth" });
+    }, timeout);
   }
 
   /**
@@ -99,13 +112,12 @@ export default class Chat extends BaseController {
    **/
   private addKeyboardEventsToInput(): void {
     const input = <FeedInput>this.getView().byId("newMessageInput");
-    // @ts-ignore
-    input.onkeydown = (event: any) => {
-      if (event.keyCode == 13 && (event.ctrlKey || event.metaKey)) {
+    input.attachBrowserEvent("keydown", (event: KeyboardEvent) => {
+      if (event.key == "Enter" && (event.ctrlKey || event.metaKey)) {
         input.fireEvent("post", { value: input.getValue() });
         input.setValue("");
         event.preventDefault();
       }
-    };
+    });
   }
 }
