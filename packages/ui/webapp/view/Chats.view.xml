@@ -1,18 +1,21 @@
 <mvc:View controllerName="com.p36.capui5gptchat.controller.Chats" displayBlock="true"
 	xmlns="sap.m"
+	xmlns:core="sap.ui.core" core:require="{
+		ChatFormatter: 'com/p36/capui5gptchat/formatter/ChatFormatter'
+	}"
 	xmlns:mvc="sap.ui.core.mvc">
 
-	<Page title="{i18n>mainTitle}" showHeader="false" showNavButton="false">
+	<Page showHeader="false" showNavButton="false">
 		<content>
-			<List id="chatList" noDataText="No chats available. Create one by clicking on the add button." growing="true" growingScrollToLoad="true" growingThreshold="20" items="{ path: '/Chats', sorters: { path: 'createdAt', descending: true } }" itemPress="onChatPress">
+			<List id="chatList" noDataText="No chats available. Create one by clicking on the add button." growing="true" growingScrollToLoad="true" growingThreshold="20" items="{ path: '/Chats', sorter: { path: 'createdAt', descending: true } }" itemPress="onChatPress">
 				<headerToolbar>
 					<Toolbar>
 						<Title text="{i18n>chatToolbarTitle}"></Title>
-						<ToolbarSpacer ></ToolbarSpacer>
+						<ToolbarSpacer></ToolbarSpacer>
 						<Button type="Emphasized" icon="sap-icon://add" press="onAddChat" />
 					</Toolbar>
 				</headerToolbar>
-				<StandardListItem visible="{= ${ID} === ''}" type="Navigation" title="{topic}" description="{model} | {= ${personality/name} || 'none' }"></StandardListItem>
+				<StandardListItem visible="{ path: 'ID', formatter: 'ChatFormatter.itemIsVisibleInList', targetType: 'any' }" type="Navigation" title="{topic}" description="{model} | {= ${personality/name} || 'none' }"></StandardListItem>
 			</List>
 		</content>
 	</Page>
