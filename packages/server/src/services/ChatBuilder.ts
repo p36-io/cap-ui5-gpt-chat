@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { Entity, Sender } from "../types/p36.capui5gpt.chat";
+import { Entity, Sender, IMessages } from "../types/p36.capui5gpt.chat";
 
 @Service()
 export default class ChatBuilder {
@@ -10,7 +10,7 @@ export default class ChatBuilder {
    * @returns {Promise<string>} the context of the chat
    */
   public async getChatAsString(chatId: string): Promise<string> {
-    const messages = await SELECT.from(Entity.Messages).where({ chat_ID: chatId }).orderBy("createdAt");
+    const messages = <IMessages[]>await SELECT.from(Entity.Messages).where({ chat_ID: chatId }).orderBy("createdAt");
     return messages
       .map((message) => {
         const sender = message.sender === Sender.AI ? Sender.AI : "Human";

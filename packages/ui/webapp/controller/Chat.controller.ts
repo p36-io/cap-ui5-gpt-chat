@@ -24,6 +24,11 @@ export default class Chat extends BaseController {
    */
   public onAfterRendering(): void {
     this.addKeyboardEventsToInput();
+    (<List>this.getView().byId("messageList")).addEventDelegate({
+      onAfterRendering: () => {
+        this.scrollToBottom(100, "auto");
+      },
+    });
   }
 
   /**
@@ -92,16 +97,18 @@ export default class Chat extends BaseController {
       true
     );
 
-    this.scrollToBottom(100);
+    //this.scrollToBottom(100);
   }
 
   /**
    * Scroll to the bottom of the message list with a timeout.
+   *
+   * @param timeout {number} the timeout in milliseconds
    */
-  private scrollToBottom(timeout: number): void {
+  private scrollToBottom(timeout: number, behavior: ScrollBehavior = "smooth"): void {
     setTimeout(() => {
-      const lastItem = (<List>this.getView().byId("messageList")).getItems();
-      lastItem[lastItem.length - 1].getDomRef().scrollIntoView({ behavior: "smooth" });
+      const items = (<List>this.getView().byId("messageList")).getItems();
+      items[items.length - 1].getDomRef().scrollIntoView({ behavior: behavior });
     }, timeout);
   }
 
