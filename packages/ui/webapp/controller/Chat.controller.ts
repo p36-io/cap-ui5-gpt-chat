@@ -100,7 +100,7 @@ export default class Chat extends BaseController {
     const input = <FeedInput>this.getView().byId("newMessageInput");
     // @ts-ignore
     input.onkeydown = (event: any) => {
-      if (event.keyCode == 13 && event.metaKey) {
+      if (event.keyCode == 13 && (event.ctrlKey || event.metaKey)) {
         input.fireEvent("post", { value: input.getValue() });
         input.setValue("");
         event.preventDefault();
