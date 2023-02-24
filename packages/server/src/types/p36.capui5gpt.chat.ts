@@ -1,5 +1,6 @@
 export enum Sender {
   AI = "AI",
+  HUMAN = "Human",
 }
 
 export interface IPersonalities {

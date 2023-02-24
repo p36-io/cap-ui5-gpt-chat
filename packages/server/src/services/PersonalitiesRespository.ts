@@ -4,6 +4,7 @@ import { IPersonalities, Entity } from "../types/p36.capui5gpt.chat";
 @Service()
 export default class PersonalitiesRespository {
   /**
+   * Simply returns a personalitiy.
    *
    * @param personalityId
    * @returns

@@ -13,7 +13,7 @@ export default class ChatBuilder {
     const messages = <IMessages[]>await SELECT.from(Entity.Messages).where({ chat_ID: chatId }).orderBy("createdAt");
     return messages
       .map((message) => {
-        const sender = message.sender === Sender.AI ? Sender.AI : "Human";
+        const sender = message.sender === Sender.AI ? Sender.AI : Sender.HUMAN;
         const plainMessage = message.text.trim().replace(/\n/g, " ");
 
         return `${sender}: ${plainMessage}`;
