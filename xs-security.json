@@ -20,8 +20,8 @@
     ],
     "role-collections": [
         {
-            "description": "Chat with an AI as a Human",
-            "name": "CAP UI5 GTP Chat Human",
+            "description": "Chat with an AI in a ChatGPT-like App as a Human",
+            "name": "ChatGPT-like App Human",
             "role-template-references": [
                 "$XSAPPNAME.HumanRT"
             ]

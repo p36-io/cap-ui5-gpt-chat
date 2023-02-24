@@ -7,7 +7,7 @@ This is a full working chat application built with the SAP Cloud Application Pro
 
 ## Features
 
-- Chat with a selectable GPT-3 model (e.g. `davinci`, `curie`, `babbage`, `ada`) model (similar to [ChatGPT](https://chatgpt.com/))
+- Chat with a selectable OpenAI model (e.g. `davinci`, `curie`, `babbage`, `ada`) model (similar to [ChatGPT](https://chatgpt.com/))
 - Multi-user support for individual chats
 - Selectable and maintainable personalities for the AI chatbot
 - Chat history for each user (everything is stored in a database)
@@ -41,7 +41,7 @@ Without a technical deep dive, there are two ways to easily customize the app:
 There is currently no UI to administrate personalities, but they can easily be changed in a csv file. Open the file `packages/server/db/data/p36.capui5gpt.chat-Personalities.csv` and simply add a new line with the following format:
 
 ```csv
-<name>,<instruction>
+<name>;<instruction>
 ```
 
 After changing the file you need to redeploy the entities to the database. In the local enviroment you can do this with the following command (please note that this will delete **all data** in the local database):
@@ -50,7 +50,7 @@ After changing the file you need to redeploy the entities to the database. In th
 pnpm -r deploy:local
 ```
 
-In the Cloud Foundry environment you can simply redeploy the app (no data will be lost).
+In the Cloud Foundry environment you can simply re-deploy the app (no data will be lost).
 
 ### Modify the AI model parameters
 
@@ -72,7 +72,7 @@ Simply add the following in the `default-env.json` file in the `packages/server`
 }
 ```
 
-When being deployed to the Cloud Foundry environment, you can also change the parameters by changing the values in the `dev.mtaex` file.
+When being deployed to the Cloud Foundry environment, you can also change the parameters by changing the values in the `dev.mtaext` file.
 
 ## Run the app locally in development mode
 
@@ -136,7 +136,7 @@ You need to login with one of the following credentials:
 | _developer_ | _helloworld_ |
 | _pirate_    | _ahoy_       |
 
-There a no internal roles attached to either role, so feel free to choose.
+There a no specific roles attached to either user, so feel free to choose.
 
 ## Deploy the app to the SAP BTP Cloud Foundry environment
 
@@ -196,6 +196,10 @@ The `mta.yaml` file contains all relevant services and modules:
 - The `capui5gptchat-ui` module including the SAPUI5 frontend
 
 The app will be accessible via managed approuter as well as via the standalone approuter.
+
+### Assign the required role to your user
+
+The deployment will create a Role Collection `ChatGPT-like App Human` in your Cloud Foundry environment. You need to assign the role to your user in order to be able to login to the app.
 
 ## How to obtain Support
 
