@@ -8,7 +8,7 @@
 			xmlns:f="sap.f"
 			xmlns:mvc="sap.ui.core.mvc">
 
-			<f:FlexibleColumnLayout id="flexibleColumnLayout" layout="{app>/layout}" backgroundDesign="Solid">
+			<f:FlexibleColumnLayout id="flexibleColumnLayout" layout="{appLayout>/currentLayout}" backgroundDesign="Solid">
 				<!-- Dynamic filled content -->
 			</f:FlexibleColumnLayout>
 

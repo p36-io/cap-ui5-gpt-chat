@@ -1,6 +1,7 @@
 import UIComponent from "sap/ui/core/UIComponent";
 import models from "./model/models";
 import IconFonts from "./util/IconFonts";
+import LayoutManager from "./util/LayoutManager";
 
 /**
  * @namespace com.p36.capui5gptchat
@@ -16,6 +17,10 @@ export default class Component extends UIComponent {
     this.setModel(models.createDeviceModel(), "device");
     this.setModel(models.createAppModel(), "app");
     this.setModel(await models.createUserModel(), "user");
+
+    const layoutModel = models.createLayoutModel();
+    this.setModel(layoutModel, "appLayout");
+    LayoutManager.getInstance().setModel(layoutModel);
 
     IconFonts.register();
 

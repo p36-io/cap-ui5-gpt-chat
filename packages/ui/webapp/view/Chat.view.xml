@@ -3,7 +3,7 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f"
 	xmlns:custom="com.p36.capui5gptchat.control" core:require="{
-        Helper: 'com/p36/capui5gptchat/util/Helper',
+        LayoutManager: 'com/p36/capui5gptchat/util/LayoutManager',
 		ChatFormatter: 'com/p36/capui5gptchat/formatter/ChatFormatter'
 	}"
 	xmlns:layout="sap.ui.layout" height="100%">
@@ -17,8 +17,11 @@
 				</f:heading>
 				<f:navigationActions>
 					<Button icon="sap-icon://delete" press="onDeleteChat" type="Reject"/>
-					<Button icon="sap-icon://exit-full-screen" press="Helper.setLayout('TwoColumnsMidExpanded', $event)" visible="{= ${app>/layout} === 'MidColumnFullScreen' }" type="Transparent" />
-					<Button icon="sap-icon://full-screen" press="Helper.setLayout('MidColumnFullScreen', $event)" visible="{= ${app>/layout} === 'TwoColumnsMidExpanded' }" type="Transparent" />
+					<!-- Use the LayoutModel directly -->
+					<Button icon="sap-icon://exit-full-screen" press="getModel('appLayout').exitFullScreen()" visible="{= ${appLayout>/isFullScreen} }" type="Transparent" />
+
+					<!-- Use the LayoutManager -->
+					<Button icon="sap-icon://full-screen" press="LayoutManager.getInstance().setMidColumnFullScreen()" visible="{= !${appLayout>/isFullScreen} }" type="Transparent" />
 				</f:navigationActions>
 			</f:DynamicPageTitle>
 		</f:title>
