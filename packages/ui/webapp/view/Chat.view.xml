@@ -42,11 +42,11 @@
 		<f:content>
 			<VBox class="sapUiLargeMarginBottom">
 				<List id="messageList" showNoData="false" showSeparators="Inner" items="{ path: 'messages', sorter: { path: 'createdAt', descending: false }}">
-					<custom:MessageListItem message="{text}" sender="{sender}" date="{createdAt}">
+					<custom:ChatMessageListItem message="{text}" sender="{sender}" date="{createdAt}">
 						<custom:avatar>
 							<Avatar displaySize="S" src="{ path: 'sender', formatter: 'ChatFormatter.senderIcon' }" displayShape="Square" backgroundColor="Transparent" />
 						</custom:avatar>
-					</custom:MessageListItem>
+					</custom:ChatMessageListItem>
 				</List>
 			</VBox>
 		</f:content>

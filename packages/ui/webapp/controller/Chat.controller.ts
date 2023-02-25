@@ -96,8 +96,6 @@ export default class Chat extends BaseController {
       false,
       true
     );
-
-    //this.scrollToBottom(100);
   }
 
   /**

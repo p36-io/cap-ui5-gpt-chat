@@ -2,7 +2,7 @@ import JSONModel from "sap/ui/model/json/JSONModel";
 
 export type IUser = {
   displayName: string;
-  // extend with other parameters if neeeded
+  // extend with other parameters if needed
 };
 
 export default class UserModel extends JSONModel {

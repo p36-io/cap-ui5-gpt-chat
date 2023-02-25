@@ -2,19 +2,19 @@ import Avatar from "sap/m/Avatar";
 import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 import { $ListItemBaseSettings } from "sap/m/ListItemBase";
 
-declare module "./MessageListItem" {
+declare module "./ChatMessageListItem" {
 
     /**
      * Interface defining the settings object used in constructor calls
      */
-    interface $MessageListItemSettings extends $ListItemBaseSettings {
+    interface $ChatMessageListItemSettings extends $ListItemBaseSettings {
         message?: string | PropertyBindingInfo;
         sender?: string | PropertyBindingInfo;
         date?: string | PropertyBindingInfo;
         avatar?: Avatar;
     }
 
-    export default interface MessageListItem {
+    export default interface ChatMessageListItem {
 
         // property: message
         getMessage(): string;

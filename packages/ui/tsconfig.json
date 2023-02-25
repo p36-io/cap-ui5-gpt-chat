@@ -9,6 +9,7 @@
     "strict": true,
     "strictNullChecks": false,
     "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
     "rootDir": "./webapp",
     "outDir": "./dist",
     "baseUrl": "./",

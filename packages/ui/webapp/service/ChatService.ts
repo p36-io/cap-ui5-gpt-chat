@@ -4,7 +4,7 @@ import Context from "sap/ui/model/odata/v4/Context";
 import ODataContextBinding from "sap/ui/model/odata/v4/ODataContextBinding";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
-import { ICompletion, IFuncGetCompletionParams } from "../types/ChatService";
+import { IFuncGetCompletionParams, FuncGetCompletionReturn } from "../types/ChatService";
 
 export default class ChatService {
   /**
@@ -49,12 +49,12 @@ export default class ChatService {
   }
 
   /**
-   * Retrieve a the completion from the OData service by calling the getCompletion function.
+   * Retrieve the completion from the OData service by calling the getCompletion function.
    *
    * @param params {IFuncGetCompletionParams}
    * @returns {Promise<ICompletion>}
    */
-  public async getCompletion(params: IFuncGetCompletionParams): Promise<ICompletion> {
+  public async getCompletion(params: IFuncGetCompletionParams): Promise<FuncGetCompletionReturn> {
     return new Promise((resolve, reject) => {
       const binding = <ODataContextBinding>this.model.bindContext("/getCompletion(...)");
       binding.setParameter("model", params.model);
@@ -65,7 +65,7 @@ export default class ChatService {
       binding.execute().then(
         () => {
           dialog.close();
-          resolve(<ICompletion>binding.getBoundContext().getObject());
+          resolve(<FuncGetCompletionReturn>binding.getBoundContext().getObject());
         },
         (error) => {
           dialog.close();

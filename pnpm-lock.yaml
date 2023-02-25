@@ -66,6 +66,7 @@ importers:
   packages/ui:
     specifiers:
       '@sapui5/ts-types-esm': ^1.108.7
+      '@types/showdown': ^2.0.0
       '@typescript-eslint/eslint-plugin': ^5.42.1
       '@typescript-eslint/parser': ^5.42.1
       '@ui5/cli': ^2
@@ -82,6 +83,7 @@ importers:
       ui5-tooling-transpile: ^0.2.0
     devDependencies:
       '@sapui5/ts-types-esm': 1.108.7
+      '@types/showdown': 2.0.0
       '@typescript-eslint/eslint-plugin': 5.52.0_6cfvjsbua5ptj65675bqcn6oza
       '@typescript-eslint/parser': 5.52.0_7kw3g6rralp5ps6mg3uyzz6azm
       '@ui5/cli': 2.14.17
@@ -2298,6 +2300,10 @@ packages:
 
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
+    dev: true
+
+  /@types/showdown/2.0.0:
+    resolution: {integrity: sha512-70xBJoLv+oXjB5PhtA8vo7erjLDp9/qqI63SRHm4REKrwuPOLs8HhXwlZJBJaB4kC18cCZ1UUZ6Fb/PLFW4TCA==}
     dev: true
 
   /@types/sizzle/2.3.3:

@@ -1,10 +1,10 @@
 import ListItemBase from "sap/m/ListItemBase";
-import MessageListItemRenderer from "./MessageListItemRenderer";
+import ChatMessageListItemRenderer from "./ChatMessageListItemRenderer";
 
 /**
  * @namespace com.p36.capui5gptchat
  */
-export default class MessageListItem extends ListItemBase {
+export default class ChatMessageListItem extends ListItemBase {
   static readonly metadata = {
     properties: {
       message: { type: "string", group: "Misc", defaultValue: "" },
@@ -16,5 +16,5 @@ export default class MessageListItem extends ListItemBase {
     },
   };
 
-  renderer = MessageListItemRenderer;
+  renderer = ChatMessageListItemRenderer;
 }

@@ -3,7 +3,6 @@ import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import NewEntityDialog from "../service/NewEntityDialog";
 import UI5Event from "sap/ui/base/Event";
 import { IChats } from "../types/ChatService";
-import Context from "sap/ui/model/odata/v4/Context";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
