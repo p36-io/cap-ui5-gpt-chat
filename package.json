@@ -10,6 +10,7 @@
     "npm-run-all": "^4.1.5"
   },
   "scripts": {
+    "start:dev": "pnpm --parallel start:dev",
     "build:mta": "npx mbt build -p=cf --mtar=cap-ui5-gpt-chat_1.0.0.mtar",
     "deploy:cf:dev": "cf deploy mta_archives/cap-ui5-gpt-chat_1.0.0.mtar -f -e dev.mtaext",
     "deploy:dev": "run-s build:mta deploy:cf:dev"
