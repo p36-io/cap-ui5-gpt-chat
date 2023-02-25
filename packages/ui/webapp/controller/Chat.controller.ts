@@ -118,7 +118,7 @@ export default class Chat extends BaseController {
   private addKeyboardEventsToInput(): void {
     const input = <FeedInput>this.getView().byId("newMessageInput");
     input.attachBrowserEvent("keydown", (event: KeyboardEvent) => {
-      if (event.key == "Enter" && (event.ctrlKey || event.metaKey)) {
+      if (event.key == "Enter" && (event.ctrlKey || event.metaKey) && input.getValue().trim() != "") {
         input.fireEvent("post", { value: input.getValue() });
         input.setValue("");
         event.preventDefault();
