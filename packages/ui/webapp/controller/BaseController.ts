@@ -29,9 +29,7 @@ export default abstract class BaseController extends Controller {
    * @returns {ChatService}
    */
   public getChatService(): ChatService {
-    if (!this.chatService) {
-      this.chatService = new ChatService(<ODataModel>this.getModel());
-    }
+    this.chatService ??= new ChatService(<ODataModel>this.getModel());
     return this.chatService;
   }
 

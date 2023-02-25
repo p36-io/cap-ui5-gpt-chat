@@ -21,13 +21,12 @@ export default class OpenAIService {
   private apiInstance: OpenAIApi;
 
   get api(): OpenAIApi {
-    if (!this.apiInstance) {
-      this.apiInstance = new OpenAIApi(
-        new Configuration({
-          apiKey: this.config.apiKey,
-        })
-      );
-    }
+    this.apiInstance ??= new OpenAIApi(
+      new Configuration({
+        apiKey: this.config.apiKey,
+      })
+    );
+
     return this.apiInstance;
   }
 
