@@ -1,5 +1,6 @@
 import UIComponent from "sap/ui/core/UIComponent";
 import models from "./model/models";
+import ChatService from "./service/ChatService";
 import IconFonts from "./util/IconFonts";
 import LayoutManager from "./util/LayoutManager";
 
@@ -21,6 +22,8 @@ export default class Component extends UIComponent {
     const layoutModel = models.createLayoutModel();
     this.setModel(layoutModel, "appLayout");
     LayoutManager.getInstance().setModel(layoutModel);
+
+    ChatService.getInstance().setModel(this.getModel());
 
     IconFonts.register();
 

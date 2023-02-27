@@ -9,13 +9,7 @@ export default class LayoutManager {
    * Private constructor to prevent creating instances of this class.
    * Use the static getInstance() method instead.
    */
-  private constructor() {
-    this.model = new JSONModel();
-    this.model.setData({
-      currentLayout: LayoutType.TwoColumnsMidExpanded,
-      isFullScreen: false,
-    });
-  }
+  private constructor() {}
 
   /**
    * Instantiates the LayoutManager if it doesn't exist yet and returns the singleton instance.

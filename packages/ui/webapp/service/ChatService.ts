@@ -7,17 +7,26 @@ import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import { IFuncGetCompletionParams, FuncGetCompletionReturn } from "../types/ChatService";
 
 export default class ChatService {
-  /**
-   *
-   * @param model {ODataModel}
-   */
-  public constructor(private model: ODataModel) {}
+  private static instance: ChatService;
+  private model: ODataModel;
+
+  public static getInstance(): ChatService {
+    this.instance ??= new ChatService();
+    return this.instance;
+  }
+  private constructor() {}
+
+  public setModel(model: ODataModel): void {
+    this.model = model;
+  }
 
   /**
    * Creates a single entity in the OData service by using the ODataListBinding.
    *
    * @param entity {T}
    * @param binding {sap.ui.model.odata.v4.ODataListBinding}
+   * @param skipRefresh {boolean}
+   * @param atEnd {boolean}
    * @returns {Promise<T>}
    */
   public createEntity<T extends Object>(
