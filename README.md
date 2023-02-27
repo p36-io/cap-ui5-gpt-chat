@@ -4,7 +4,7 @@ This is a full working chat application built with the SAP Cloud Application Pro
 
 - [ChatGPT-like chat app built with SAP CAP and SAPUI5 - Part 1 – Introduction](https://blogs.sap.com/2023/02/22/a-chatgpt-like-chat-app-built-with-modern-sap-technologies-cap-sapui5-part-1-2/)
 - [ChatGPT-like chat app built with SAP CAP and SAPUI5 - Part 2 – Backend](https://blogs.sap.com/2023/02/24/a-chatgpt-like-chat-app-built-with-modern-sap-technologies-cap-sapui5-part-2-3/)
-- ChatGPT-like chat app built with SAP CAP and SAPUI5 - Part 3 – Frontend (coming soon)
+- [ChatGPT-like chat app built with SAP CAP and SAPUI5 - Part 3 – Frontend](https://blogs.sap.com/2023/02/27/a-chatgpt-like-chat-app-built-with-modern-sap-technologies-cap-sapui5-part-3-3/)
 
 ## Features
 
