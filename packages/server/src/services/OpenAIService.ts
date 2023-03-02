@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from "openai";
+import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
 import { Service, Inject } from "typedi";
 
 export interface OpenAIConfing {
@@ -45,6 +45,26 @@ export default class OpenAIService {
     );
   }
 
+  public async createChatCompletion(
+    messages: ChatCompletionRequestMessage[],
+    model: string = "text-davinci-003"
+  ): Promise<string> {
+    const attributes = this.config.completionAttributes || {};
+    const response = this.api
+      .createChatCompletion({
+        ...this.mergeAttributesWithDefaults(attributes),
+        model: model,
+        messages: messages,
+      })
+      .then((response) => {
+        return response.data.choices[0].message.content;
+      })
+      .catch((error) => {
+        return `The OpenAI API sadly returned an error! (Error: ${error.message})`;
+      });
+    return response;
+  }
+
   /**
    * Returns a completion for the given prompt and model
    *
@@ -56,14 +76,10 @@ export default class OpenAIService {
     const attributes = this.config.completionAttributes || {};
     const response = await this.api
       .createCompletion({
+        ...this.mergeAttributesWithDefaults(attributes),
         model: model,
         prompt: prompt,
         stop: ["\nHuman:", "\nAI:"],
-        max_tokens: attributes.max_tokens || 1200,
-        temperature: attributes.temperature || 0.8,
-        top_p: attributes.top_p || 1,
-        frequency_penalty: attributes.frequency_penalty || 0,
-        presence_penalty: attributes.presence_penalty || 0.6,
       })
       .then((response) => {
         return response.data.choices[0].text;
@@ -72,5 +88,15 @@ export default class OpenAIService {
         return `The OpenAI API sadly returned an error! (Error: ${error.message})`;
       });
     return response;
+  }
+
+  private mergeAttributesWithDefaults(attributes: CompletionAttributes): CompletionAttributes {
+    return {
+      max_tokens: attributes.max_tokens || 1200,
+      temperature: attributes.temperature || 0.8,
+      top_p: attributes.top_p || 1,
+      frequency_penalty: attributes.frequency_penalty || 0,
+      presence_penalty: attributes.presence_penalty || 0.6,
+    };
   }
 }

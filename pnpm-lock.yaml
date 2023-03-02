@@ -31,7 +31,7 @@ importers:
       jest: ^29.4.3
       nodemon: ^2.0.20
       npm-run-all: ^4.1.5
-      openai: ^3.1.0
+      openai: ^3.2.1
       passport: ^0.6.0
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
@@ -47,7 +47,7 @@ importers:
       cds-routing-handlers: 3.0.7
       cds2types: 3.0.0_@sap+cds@6.5.0
       express: 4.18.2
-      openai: 3.1.0
+      openai: 3.2.1
       passport: 0.6.0
       reflect-metadata: 0.1.13
       typedi: 0.10.0
@@ -2958,7 +2958,7 @@ packages:
   /axios/0.27.2_debug@4.3.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -7281,8 +7281,8 @@ packages:
       is-wsl: 2.2.0
     dev: true
 
-  /openai/3.1.0:
-    resolution: {integrity: sha512-v5kKFH5o+8ld+t0arudj833Mgm3GcgBnbyN9946bj6u7bvel4Yg6YFz2A4HLIYDzmMjIo0s6vSG9x73kOwvdCg==}
+  /openai/3.2.1:
+    resolution: {integrity: sha512-762C9BNlJPbjjlWZi4WYK9iM2tAVAv0uUp1UmI34vb0CN5T2mjB/qM6RYBmNKMh/dN9fC+bxqPwWJZUTWW052A==}
     dependencies:
       axios: 0.26.1
       form-data: 4.0.0

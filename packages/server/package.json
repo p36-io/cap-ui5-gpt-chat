@@ -13,7 +13,7 @@
     "cds-routing-handlers": "^3.0.7",
     "cds2types": "^3.0.0",
     "express": "^4",
-    "openai": "^3.1.0",
+    "openai": "^3.2.1",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0",
     "passport": "^0.6.0",
