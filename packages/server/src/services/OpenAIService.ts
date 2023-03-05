@@ -157,7 +157,7 @@ export default class OpenAIService {
       }
     });
 
-    stream.on("end", () => {
+    readable.on("end", () => {
       stream.emit("end");
     });
     return stream;
