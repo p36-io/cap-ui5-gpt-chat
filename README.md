@@ -12,6 +12,7 @@ This is a full working chat application built with the SAP Cloud Application Pro
 - Multi-user support for individual chats
 - Selectable and maintainable personalities for the AI chatbot
 - Chat history for each user (everything is stored in a database)
+- Per chat option to enable streaming responses from the OpenAI API
 - Code-Highlighting for code snippets in the chat history
 - Ready to be deployed to SAP BTP Cloud Foundry
 
