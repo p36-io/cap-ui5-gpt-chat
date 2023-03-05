@@ -1,6 +1,6 @@
 # A ChatGPT-like chat app built with SAP CAP and SAPUI5
 
-This is a full working chat application built with the SAP Cloud Application Programming Model and SAPUI5. It uses a selectable GPT-3 model of the [OpenAI API](https://openai.com/blog/openai-api/) to generate responses to the user's prompts. More details can be found in the related blog posts in the SAP Community:
+This is a full working chat application built with the SAP Cloud Application Programming Model and SAPUI5. It uses a selectable OpenAI model (including the latest ChatGPT model) of the [OpenAI API](https://openai.com/blog/openai-api/) to generate responses to the user's prompts. More details can be found in the related blog posts in the SAP Community:
 
 - [ChatGPT-like chat app built with SAP CAP and SAPUI5 - Part 1 – Introduction](https://blogs.sap.com/2023/02/22/a-chatgpt-like-chat-app-built-with-modern-sap-technologies-cap-sapui5-part-1-2/)
 - [ChatGPT-like chat app built with SAP CAP and SAPUI5 - Part 2 – Backend](https://blogs.sap.com/2023/02/24/a-chatgpt-like-chat-app-built-with-modern-sap-technologies-cap-sapui5-part-2-3/)
@@ -11,9 +11,9 @@ This is a full working chat application built with the SAP Cloud Application Pro
 - Chat with a selectable OpenAI model including the GPT-3.5 (`gpt-3.5-turbo`) model powering [ChatGPT](https://chatgpt.com/)
 - Multi-user support for individual chats
 - Selectable and maintainable personalities for the AI chatbot
-- Chat history for each user (everything is stored in a database)
+- Chat history for each user (everything is stored in the database)
 - Per chat option to enable streaming responses from the OpenAI API
-- Code-Highlighting for code snippets in the chat history
+- Code-Highlighting for code snippets in the chat messages
 - Ready to be deployed to SAP BTP Cloud Foundry
 
 ### Technical Aspects
@@ -209,4 +209,4 @@ This content is provided "as-is" without warranties or conditions of any kind.
 
 ## License
 
-Copyright (c) 2023 p36 GmbH. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
+Copyright (c) 2023 p36 GmbH. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file.
