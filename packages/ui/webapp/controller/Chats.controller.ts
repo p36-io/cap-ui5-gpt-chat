@@ -3,6 +3,7 @@ import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import NewEntityDialog from "../service/NewEntityDialog";
 import UI5Event from "sap/ui/base/Event";
 import { IChats } from "../types/ChatService";
+import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
@@ -45,7 +46,7 @@ export default class Chats extends BaseController {
   public async onAddChat(event: UI5Event): Promise<void> {
     const binding = <ODataListBinding>this.getView().byId("chatList").getBinding("items");
     let context = binding.create(<IChats>{
-      model: "text-davinci-003",
+      model: "gpt-3.5-turbo",
     });
 
     const dialog = new NewEntityDialog(context, "NewChatDialog", this.getView());

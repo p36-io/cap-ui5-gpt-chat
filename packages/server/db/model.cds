@@ -13,11 +13,12 @@ entity Personalities : cuid, managed {
 }
 
 entity Chats : cuid, managed {
-    topic       : String @mandatory;
-    model       : String @mandatory;
-    personality : Association to one Personalities;
-    messages    : Composition of many Messages
-                      on messages.chat = $self;
+    topic            : String @mandatory;
+    model            : String @mandatory;
+    streamingEnabled : Boolean default false;
+    personality      : Association to one Personalities;
+    messages         : Composition of many Messages
+                           on messages.chat = $self;
 }
 
 entity Messages : cuid, managed {

@@ -42,9 +42,7 @@ export default class ChatBuilder {
   }
 
   private async readInstructions(personalityId?: string): Promise<string> {
-    if (!personalityId) return Promise.resolve("");
-
-    const { instructions } = await this.personalityRepository.getPersonality(<string>personalityId);
-    return instructions;
+    const personaltiy = await this.personalityRepository.getPersonality(<string>personalityId);
+    return personaltiy?.instructions || "";
   }
 }

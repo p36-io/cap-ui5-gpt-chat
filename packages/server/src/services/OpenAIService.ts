@@ -1,5 +1,7 @@
 import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
 import { Service, Inject } from "typedi";
+import { Readable } from "stream";
+import CompletionStream from "./CompletionStream";
 
 export interface OpenAIConfing {
   apiKey: string;
@@ -45,6 +47,29 @@ export default class OpenAIService {
     );
   }
 
+  public async createChatCompletionAsStream(
+    messages: ChatCompletionRequestMessage[],
+    model: string = "gpt-3.5-turbo"
+  ): Promise<CompletionStream> {
+    const attributes = this.config.completionAttributes || {};
+    const response = await this.api.createChatCompletion(
+      {
+        ...this.mergeAttributesWithDefaults(attributes),
+        model: model,
+        messages: messages,
+        stream: true,
+      },
+      {
+        responseType: "stream",
+      }
+    );
+
+    const readable = response.data as any as Readable;
+    return this.buildStream(readable, (data) => {
+      return data.choices[0]?.delta?.content;
+    });
+  }
+
   public async createChatCompletion(
     messages: ChatCompletionRequestMessage[],
     model: string = "text-davinci-003"
@@ -63,6 +88,26 @@ export default class OpenAIService {
         return `The OpenAI API sadly returned an error! (Error: ${error.message})`;
       });
     return response;
+  }
+
+  public async createCompletionAsStream(prompt: string, model: string = "text-davinci-003"): Promise<CompletionStream> {
+    const attributes = this.config.completionAttributes || {};
+    const response = await this.api.createCompletion(
+      {
+        ...this.mergeAttributesWithDefaults(attributes),
+        model: model,
+        prompt: prompt,
+        stream: true,
+      },
+      {
+        responseType: "stream",
+      }
+    );
+
+    const readable = response.data as any as Readable;
+    return this.buildStream(readable, (data) => {
+      return data.choices[0].text;
+    });
   }
 
   /**
@@ -98,5 +143,23 @@ export default class OpenAIService {
       frequency_penalty: attributes.frequency_penalty || 0,
       presence_penalty: attributes.presence_penalty || 0.6,
     };
+  }
+
+  private buildStream(readable: Readable, extractorCallback: (data: any) => string): CompletionStream {
+    const stream = new CompletionStream();
+    readable.on("data", async (completionData) => {
+      try {
+        const data = JSON.parse(completionData.toString().trim().replace("data: ", ""));
+        const chunk = extractorCallback(data);
+        chunk && stream.emit("chunk", chunk);
+      } catch (error) {
+        stream.emit("error", error);
+      }
+    });
+
+    stream.on("end", () => {
+      stream.emit("end");
+    });
+    return stream;
   }
 }

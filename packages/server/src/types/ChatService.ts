@@ -10,6 +10,7 @@ export interface IChats {
   modifiedBy?: string;
   topic: string;
   model: string;
+  streamingEnabled?: boolean;
   personality?: IPersonalities;
   personality_ID?: string;
   messages: IMessages[];
@@ -66,6 +67,21 @@ export interface IFuncGetCompletionParams {
 }
 
 export type FuncGetCompletionReturn = ICompletion;
+
+export enum FuncGetCompletionAsStream {
+  name = "getCompletionAsStream",
+  paramModel = "model",
+  paramPersonality = "personality",
+  paramChat = "chat",
+}
+
+export interface IFuncGetCompletionAsStreamParams {
+  model: string;
+  personality: string;
+  chat: string;
+}
+
+export type FuncGetCompletionAsStreamReturn = Buffer;
 
 export enum Entity {
   Chats = "ChatService.Chats",

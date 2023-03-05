@@ -6,6 +6,14 @@ import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import { IFuncGetCompletionParams, FuncGetCompletionReturn } from "../types/ChatService";
 
+interface ICreateEntityParams<T> {
+  entity: T;
+  binding: ODataListBinding;
+  skipRefresh?: boolean;
+  atEnd?: boolean;
+  submitBatch?: boolean;
+}
+
 export default class ChatService {
   private static instance: ChatService;
   private model: ODataModel;
@@ -20,27 +28,22 @@ export default class ChatService {
     this.model = model;
   }
 
-  /**
-   * Creates a single entity in the OData service by using the ODataListBinding.
-   *
-   * @param entity {T}
-   * @param binding {sap.ui.model.odata.v4.ODataListBinding}
-   * @param skipRefresh {boolean}
-   * @param atEnd {boolean}
-   * @returns {Promise<T>}
-   */
-  public createEntity<T extends Object>(
-    entity: T,
-    binding: ODataListBinding,
-    skipRefresh = false,
-    atEnd = false
-  ): Promise<T> {
-    return new Promise((resolve, reject) => {
+  public async submitChanges(): Promise<void> {
+    this.model.submitBatch(this.model.getUpdateGroupId());
+  }
+
+  public async createEntity<T extends Object>(params: ICreateEntityParams<T>): Promise<Context> {
+    const { entity, binding, skipRefresh = false, atEnd = true, submitBatch = true } = params;
+    return new Promise(async (resolve, reject) => {
       const context = binding.create(entity, skipRefresh, atEnd);
-      context.created().then(() => {
-        resolve(context.getObject());
-      }, reject);
-      this.model.submitBatch(this.model.getUpdateGroupId());
+      if (submitBatch) {
+        context.created().then(() => {
+          resolve(context);
+        });
+        this.model.submitBatch(this.model.getUpdateGroupId());
+      } else {
+        resolve(context);
+      }
     });
   }
 
@@ -84,6 +87,52 @@ export default class ChatService {
           reject(error);
         }
       );
+    });
+  }
+
+  /**
+   * Fetches the completion from the OData service by calling the getCompletionAsStream function and returns the result as a stream.
+   *
+   * @param params {IFuncGetCompletionParams}
+   * @param callback {(chuck: string) => void} The callback function that is called for each chuck of data.
+   * @returns {Promise<void>}
+   */
+  public async getCompletionAsStream(
+    params: IFuncGetCompletionParams,
+    callback?: (chuck: string) => void
+  ): Promise<FuncGetCompletionReturn> {
+    return new Promise(async (resolve, reject) => {
+      const res = await fetch(
+        `${this.model.getServiceUrl()}getCompletionAsStream(model='${params.model}',chat='${
+          params.chat
+        }',personality='${params.personality}')`
+      );
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+
+      const readPart = async () => {
+        reader.read().then(({ value, done }) => {
+          const dataString = decoder.decode(value);
+          const regex = /{"message":"[^{}]+?"}/g;
+          const objects = dataString.match(regex);
+          if (objects) {
+            objects.forEach((object) => {
+              try {
+                const data = JSON.parse(object);
+                data.message && callback && callback(data.message);
+              } catch (error) {
+                console.error(error);
+              }
+            });
+          }
+          if (!done) {
+            readPart();
+          } else {
+            resolve(null);
+          }
+        });
+      };
+      readPart();
     });
   }
 }

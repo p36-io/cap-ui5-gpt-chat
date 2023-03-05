@@ -23,6 +23,8 @@
                     <Select items="{/Personalities}" forceSelection="false" selectedKey="{personality_ID}">
                         <core:Item key="{ID}" text="{name}" />
                     </Select>
+                    <Label text="Enable Streaming" />
+                    <Switch state="{streamingEnabled}"></Switch>
                 </form:content>
             </form:SimpleForm>
         </content>

@@ -13,14 +13,17 @@
     "cds-routing-handlers": "^3.0.7",
     "cds2types": "^3.0.0",
     "express": "^4",
+    "compression": "~1.7.4",
     "openai": "^3.2.1",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0",
     "passport": "^0.6.0",
-    "@sap/hana-client": "^2.15.19"
+    "@sap/hana-client": "^2.15.19",
+    "tiny-typed-emitter": "~2.1.0"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
+    "@types/compression": "~1.7.2",
     "@sap/cds-dk": "^6",
     "jest": "^29.4.3",
     "nodemon": "^2.0.20",
@@ -33,11 +36,21 @@
   },
   "scripts": {
     "start": "NODE_ENV=production node ./srv/server.js",
-    "start:dev": "npm run build:cds && nodemon",
+    "start:dev": "npm run build:cds && npm run copy:types && nodemon",
     "deploy:local": "cds deploy --to sqlite:chat.db",
     "build": "run-s build:cds copy:types build:ts",
     "build:cds": "echo 'Compiling cds sources...' && cds2types --cds ./srv/index.cds --output ./src/types/ --prefix I -f && cds build && cp .cdsrc.json gen/srv",
     "copy:types": "npx copyfiles -f ./src/types/*Service.ts ./../ui/webapp/types/",
     "build:ts": "echo 'Compiling *.ts sources...' && npx tsc"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "database": "chat.db"
+        }
+      }
+    }
   }
 }

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import express from "express";
+import compression from "compression";
 import { createCombinedHandler, useContainer } from "cds-routing-handlers";
 import cds from "@sap/cds";
 import Container from "typedi";
@@ -18,6 +19,8 @@ export class Server {
     Container.set("openai-config", openaiConfig);
 
     const app = express();
+    app.use(compression());
+
     await cds.connect("db");
     await cds
       .serve("all")

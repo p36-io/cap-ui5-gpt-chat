@@ -1,12 +1,15 @@
 <mvc:View xmlns:core="sap.ui.core" controllerName="com.p36.capui5gptchat.controller.Chat" displayBlock="true"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
+	xmlns:webc="sap.ui.webc.main"
 	xmlns:f="sap.f"
 	xmlns:custom="com.p36.capui5gptchat.control" core:require="{
         LayoutManager: 'com/p36/capui5gptchat/util/LayoutManager',
 		ChatFormatter: 'com/p36/capui5gptchat/formatter/ChatFormatter'
 	}"
 	xmlns:layout="sap.ui.layout" height="100%">
+
+	<webc:Toast id="steamingEnabledToast" duration="2000" placement="TopCenter"></webc:Toast>
 
 	<f:DynamicPage id="chatPage" class="sapUiContentPadding chatPage" showFooter="true">
 		<!-- DynamicPage Title -->
@@ -15,8 +18,14 @@
 				<f:heading>
 					<Title text="{topic}"/>
 				</f:heading>
+				<f:actions>
+					<Label text="Enable streaming:"></Label>
+					<Switch state="{streamingEnabled}" change="onStreamingEnabledChange"></Switch>
+					<ToolbarSeparator ></ToolbarSeparator>
+					<Button icon="sap-icon://delete" press="onDeleteChat" type="Transparent"/>
+				</f:actions>
 				<f:navigationActions>
-					<Button icon="sap-icon://delete" press="onDeleteChat" type="Reject"/>
+
 					<!-- Use the LayoutModel directly -->
 					<Button icon="sap-icon://exit-full-screen" press="getModel('appLayout').exitFullScreen()" visible="{= ${appLayout>/isFullScreen} }" type="Transparent" />
 
@@ -43,7 +52,7 @@
 			</f:DynamicPageHeader>
 		</f:header>
 		<f:content>
-			<VBox class="sapUiLargeMarginBottom">
+			<VBox class="sapUiMediumMarginBottom">
 				<List id="messageList" showNoData="false" showSeparators="Inner" items="{ path: 'messages', sorter: { path: 'createdAt', descending: false }}">
 					<custom:ChatMessageListItem message="{text}" sender="{sender}" date="{createdAt}">
 						<custom:avatar>
@@ -51,6 +60,7 @@
 						</custom:avatar>
 					</custom:ChatMessageListItem>
 				</List>
+				<Text id="listEndMarker" text="" visible="true" />
 			</VBox>
 		</f:content>
 		<!-- DynamicPage Footer -->

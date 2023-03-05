@@ -4,8 +4,9 @@ using ChatService.types as types from './types';
 @requires: 'human'
 service ChatService {
 
-    function getModels()                                                        returns array of types.Model;
-    function getCompletion(model : String, personality : String, chat : String) returns types.Completion;
+    function getModels()                                                                returns array of types.Model;
+    function getCompletion(model : String, personality : String, chat : String)         returns types.Completion;
+    function getCompletionAsStream(model : String, personality : String, chat : String) returns Binary;
     entity Chats         as projection on chat.Chats;
     entity Messages      as projection on chat.Messages;
     entity Personalities as projection on chat.Personalities;

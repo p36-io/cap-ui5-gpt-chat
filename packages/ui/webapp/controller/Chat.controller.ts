@@ -8,6 +8,9 @@ import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import UserModel from "../model/UserModel";
 import List from "sap/m/List";
 import ChatService from "../service/ChatService";
+import Control from "sap/ui/core/Control";
+import Toast from "sap/ui/webc/main/Toast";
+import NewMessageHandler from "../service/NewMessageHandler";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
@@ -33,6 +36,13 @@ export default class Chat extends BaseController {
     });
   }
 
+  public onStreamingEnabledChange(event: UI5Event): void {
+    ChatService.getInstance().submitChanges();
+    const toast = <Toast>this.getView().byId("steamingEnabledToast");
+    toast.setText(`Streaming ${event.getParameter("state") ? "enabled" : "disabled"} for chat.`);
+    toast.show();
+  }
+
   public onDeleteChat(event: UI5Event): void {
     Helper.withConfirmation("Delete Chat", "Are you sure you want to delete this chat?", async () => {
       await ChatService.getInstance().deleteEntity(<Context>this.getView().getBindingContext());
@@ -43,44 +53,26 @@ export default class Chat extends BaseController {
   public async onPostMessage(event: UI5Event): Promise<void> {
     const message = event.getParameter("value");
     const chat = <IChats>this.getView().getBindingContext().getObject();
-    const chatService = ChatService.getInstance();
     const binding = <ODataListBinding>this.getView().byId("messageList").getBinding("items");
 
-    await chatService.createEntity<IMessages>(
-      <IMessages>{
-        text: message.trim(),
-        model: chat.model,
-        sender: (<UserModel>this.getModel("user")).getUser().displayName,
-        chat_ID: chat.ID,
+    const messageHandler = new NewMessageHandler({
+      chat: chat,
+      binding: binding,
+      message: message,
+      sender: (<UserModel>this.getModel("user")).getUser().displayName,
+      streamingCallback: (chunk: string, replyContext: Context) => {
+        if (!chunk) return;
+        // Just append the chunk to the text property of the reply context.
+        replyContext.setProperty("text", `${replyContext.getProperty("text")}${chunk}`);
+        this.scrollToBottom(0);
       },
-      binding,
-      false,
-      true
-    );
-
-    const completion = await chatService.getCompletion({
-      chat: chat.ID,
-      model: chat.model,
-      personality: chat.personality_ID,
     });
-
-    await chatService.createEntity<IMessages>(
-      <IMessages>{
-        text: completion.message,
-        model: chat.model,
-        sender: Sender.AI,
-        chat_ID: chat.ID,
-      },
-      binding,
-      false,
-      true
-    );
+    await messageHandler.createMessageAndCompletion();
   }
 
   private scrollToBottom(timeout: number, behavior: ScrollBehavior = "smooth"): void {
     setTimeout(() => {
-      const items = (<List>this.getView().byId("messageList")).getItems();
-      items[items.length - 1].getDomRef().scrollIntoView({ behavior: behavior });
+      (<Control>this.getView().byId("listEndMarker")).getDomRef().scrollIntoView({ behavior: behavior });
     }, timeout);
   }
 
