@@ -5,7 +5,8 @@ type Sender : String enum {
 }
 
 type Model {
-    id : String;
+    id       : String;
+    category : String;
 }
 
 type Completion {

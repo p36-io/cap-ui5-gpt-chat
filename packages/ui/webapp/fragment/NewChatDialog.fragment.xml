@@ -15,12 +15,17 @@
                 <form:content>
                     <Label text="Topic" />
                     <Input value="{topic}" />
-                    <Label text="Model" />
-                    <Select items="{/getModels()}" selectedKey="{model}">
-                        <core:Item key="{id}" text="{id}" />
-                    </Select>
+
+                    <Label text="Model" class="sapUiTinyMarginEnd" />
+                    <HBox renderType="Bare" fitContainer="true">
+                        <ComboBox width="100%" items="{ path: '/getModels()', sorter: { path: 'category', group: true }}" selectedKey="{model}">
+                            <core:Item key="{id}" text="{id}" />
+                        </ComboBox>
+                        <Button type="Transparent" icon="sap-icon://sys-help" press="window.open('https://platform.openai.com/docs/models/overview', '_blank')" />
+                    </HBox>
+
                     <Label text="Personality" />
-                    <Select items="{/Personalities}" forceSelection="false" selectedKey="{personality_ID}">
+                    <Select items="{ path: '/Personalities' }" forceSelection="false" selectedKey="{personality_ID}">
                         <core:Item key="{ID}" text="{name}" />
                     </Select>
                     <Label text="Enable Streaming" />

@@ -32,7 +32,7 @@ export default class ChatServiceHandler {
   ): Promise<FuncGetCompletionReturn> {
     let response: string;
 
-    if (model.startsWith("gpt-3.5-turbo")) {
+    if (model.startsWith("gpt-3.5") || model.startsWith("gpt-4")) {
       const messages = await this.chatBuilder.getChatAsMessages(chatId, personalityId);
       response = await this.openAIService.createChatCompletion(messages, model);
     } else {
@@ -63,7 +63,7 @@ export default class ChatServiceHandler {
     httpRes.setHeader("Cache-Control", "no-cache");
     httpRes.setHeader("Connection", "keep-alive");
 
-    if (model.startsWith("gpt-3.5-turbo")) {
+    if (model.startsWith("gpt-3.5") || model.startsWith("gpt-4")) {
       const messages = await this.chatBuilder.getChatAsMessages(chatId, personalityId);
       stream = await this.openAIService.createChatCompletionAsStream(messages, model);
     } else {

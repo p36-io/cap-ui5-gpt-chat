@@ -41,6 +41,7 @@ export interface IPersonalities {
 
 export interface IModel {
   id: string;
+  category: string;
 }
 
 export interface ICompletion {

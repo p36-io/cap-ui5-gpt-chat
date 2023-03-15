@@ -37,13 +37,20 @@ export default class OpenAIService {
    *
    * @returns {Promise<{ id: string }[]>} the list of models
    */
-  public async readModels(): Promise<{ id: string }[]> {
+  public async readModels(): Promise<{ id: string; category: string }[]> {
     return this.api.listModels().then((response) =>
-      response.data.data.map((model) => {
-        return {
-          id: model.id,
-        };
-      })
+      response.data.data
+        .map((model) => {
+          return {
+            id: model.id,
+            category: model.id.startsWith("gpt-4")
+              ? "GPT-4"
+              : model.id.startsWith("gpt-3.5")
+              ? "GPT-3.5"
+              : "GPT-3 and others",
+          };
+        })
+        .sort((a, b) => b.category.localeCompare(a.category))
     );
   }
 
@@ -72,7 +79,7 @@ export default class OpenAIService {
 
   public async createChatCompletion(
     messages: ChatCompletionRequestMessage[],
-    model: string = "text-davinci-003"
+    model: string = "gpt-3.5-turbo"
   ): Promise<string> {
     const attributes = this.config.completionAttributes || {};
     const response = this.api

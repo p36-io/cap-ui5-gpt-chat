@@ -8,7 +8,7 @@ This is a full working chat application built with the SAP Cloud Application Pro
 
 ## Features
 
-- Chat with a selectable OpenAI model including the GPT-3.5 (`gpt-3.5-turbo`) model powering [ChatGPT](https://chatgpt.com/)
+- Chat with a selectable OpenAI model including the GPT-4 and GPT-3.5 models powering [ChatGPT](https://chatgpt.com/)
 - Multi-user support for individual chats
 - Selectable and maintainable personalities for the AI chatbot
 - Chat history for each user (everything is stored in the database)

@@ -44,7 +44,7 @@
 		}
 	},
 	"sap.ui5": {
-		"flexEnabled": true,
+		"flexEnabled": false,
 		"resources": {
 			"css": [
 				{
