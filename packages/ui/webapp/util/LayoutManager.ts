@@ -5,17 +5,8 @@ export default class LayoutManager {
   private static instance: LayoutManager;
   public model: JSONModel;
 
-  /**
-   * Private constructor to prevent creating instances of this class.
-   * Use the static getInstance() method instead.
-   */
   private constructor() {}
-
-  /**
-   * Instantiates the LayoutManager if it doesn't exist yet and returns the singleton instance.
-   *
-   * @returns {LayoutManager} The singleton instance of the LayoutManager.
-   */
+  
   public static getInstance(): LayoutManager {
     this.instance ??= new LayoutManager();
     return this.instance;

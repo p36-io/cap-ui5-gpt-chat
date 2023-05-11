@@ -2,20 +2,21 @@ import BaseController from "./BaseController";
 import UI5Event from "sap/ui/base/Event";
 import Helper from "../util/Helper";
 import Context from "sap/ui/model/odata/v4/Context";
-import { IMessages, IChats, Sender } from "../types/ChatService";
+import { IChats } from "../types/ChatService";
 import FeedInput from "sap/m/FeedInput";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import UserModel from "../model/UserModel";
 import List from "sap/m/List";
 import ChatService from "../service/ChatService";
-import Control from "sap/ui/core/Control";
 import Toast from "sap/ui/webc/main/Toast";
 import NewMessageHandler from "../service/NewMessageHandler";
+import UIHelper from "../util/UIHelper";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
  */
 export default class Chat extends BaseController {
+  
   public onInit(): void {
     this.getRouter().getRoute("chat").attachPatternMatched(this.onRouteMatched, this);
   }
@@ -24,7 +25,7 @@ export default class Chat extends BaseController {
     this.addKeyboardEventsToInput();
     (<List>this.getView().byId("messageList")).addEventDelegate({
       onAfterRendering: () => {
-        this.scrollToBottom(100, "auto");
+        UIHelper.scrollToElement(this.getView().byId("listEndMarker").getDomRef(), 100);
       },
     });
   }
@@ -62,18 +63,11 @@ export default class Chat extends BaseController {
       sender: (<UserModel>this.getModel("user")).getUser().displayName,
       streamingCallback: (chunk: string, replyContext: Context) => {
         if (!chunk) return;
-        // Just append the chunk to the text property of the reply context.
         replyContext.setProperty("text", `${replyContext.getProperty("text")}${chunk}`);
-        this.scrollToBottom(0);
+        UIHelper.scrollToElement(this.getView().byId("listEndMarker").getDomRef());
       },
     });
     await messageHandler.createMessageAndCompletion();
-  }
-
-  private scrollToBottom(timeout: number, behavior: ScrollBehavior = "smooth"): void {
-    setTimeout(() => {
-      (<Control>this.getView().byId("listEndMarker")).getDomRef().scrollIntoView({ behavior: behavior });
-    }, timeout);
   }
 
   private addKeyboardEventsToInput(): void {

@@ -83,8 +83,8 @@ export default class ChatServiceHandler {
       });
 
       stream.on("error", (error) => {
-        httpRes.end(JSON.stringify({ error: error.message }));
-        resolve(null);
+        //httpRes.end(JSON.stringify({ error: error.message }));
+        //resolve(null);
       });
     });
   }

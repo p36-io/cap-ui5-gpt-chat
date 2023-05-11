@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "compression"],
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "lib": ["ES2019"],
     "module": "commonjs",

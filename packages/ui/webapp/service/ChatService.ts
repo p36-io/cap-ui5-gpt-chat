@@ -90,13 +90,6 @@ export default class ChatService {
     });
   }
 
-  /**
-   * Fetches the completion from the OData service by calling the getCompletionAsStream function and returns the result as a stream.
-   *
-   * @param params {IFuncGetCompletionParams}
-   * @param callback {(chuck: string) => void} The callback function that is called for each chuck of data.
-   * @returns {Promise<void>}
-   */
   public async getCompletionAsStream(
     params: IFuncGetCompletionParams,
     callback?: (chuck: string) => void
@@ -107,32 +100,25 @@ export default class ChatService {
           params.chat
         }',personality='${params.personality}')`
       );
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder("utf-8");
 
-      const readPart = async () => {
-        reader.read().then(({ value, done }) => {
-          const dataString = decoder.decode(value);
-          const regex = /{"message":"[^{}]+?"}/g;
-          const objects = dataString.match(regex);
-          if (objects) {
-            objects.forEach((object) => {
-              try {
-                const data = JSON.parse(object);
-                data.message && callback && callback(data.message);
-              } catch (error) {
-                console.error(error);
-              }
-            });
-          }
-          if (!done) {
-            readPart();
-          } else {
-            resolve(null);
+      const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          resolve(null);
+          break;
+        }
+        const regex = /{"message":"[^{}]+?"}/g;
+        const objects = value.match(regex);
+        objects?.forEach((object) => {
+          try {
+            const data = JSON.parse(object);
+            data.message && callback?.call(this, data.message);
+          } catch (error) {
+            console.error(error);
           }
         });
-      };
-      readPart();
+      }
     });
   }
 }

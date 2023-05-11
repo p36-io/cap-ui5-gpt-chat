@@ -19,7 +19,9 @@ export class Server {
     Container.set("openai-config", openaiConfig);
 
     const app = express();
-    app.use(compression());
+    app.use(compression({
+      chunkSize: 2 * 1024
+    }));
 
     await cds.connect("db");
     await cds

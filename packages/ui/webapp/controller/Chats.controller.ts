@@ -3,7 +3,7 @@ import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import NewEntityDialog from "../service/NewEntityDialog";
 import UI5Event from "sap/ui/base/Event";
 import { IChats } from "../types/ChatService";
-import ODataModel from "sap/ui/model/odata/v4/ODataModel";
+import ListItemBase from "sap/m/ListItemBase";
 
 /**
  * @namespace com.p36.capui5gptchat.controller
@@ -16,33 +16,17 @@ export default class Chats extends BaseController {
     this.getRouter().getRoute("home").attachPatternMatched(this.onRouteMatched, this);
   }
 
-  /**
-   * Event handler for the route matched event.
-   * Refreshes the chat list.
-   *
-   * @param event {sap.ui.base.Event}
-   **/
   public onRouteMatched(event: UI5Event): void {
     this.getView().byId("chatList").getBinding("items").refresh();
   }
 
-  /**
-   * Event handler when the user presses a chat.
-   *
-   * @param event {sap.ui.base.Event}
-   */
   public onChatPress(event: UI5Event): void {
-    const item = event.getParameter("listItem");
+    const item = <ListItemBase>event.getParameter("listItem");
     this.getRouter().navTo("chat", {
       chat: item.getBindingContext().getProperty("ID"),
     });
   }
 
-  /**
-   * Event handler for the add chat button.
-   *
-   * @param event {sap.ui.base.Event}
-   */
   public async onAddChat(event: UI5Event): Promise<void> {
     const binding = <ODataListBinding>this.getView().byId("chatList").getBinding("items");
     let context = binding.create(<IChats>{
@@ -50,11 +34,15 @@ export default class Chats extends BaseController {
     });
 
     const dialog = new NewEntityDialog(context, "NewChatDialog", this.getView());
-    await dialog.open().catch(() => {
-      context.delete("$auto");
-    });
-    this.getRouter().navTo("chat", {
-      chat: <IChats>context.getObject().ID,
-    });
+    await dialog
+      .open()
+      .then((context) => {
+        this.getRouter().navTo("chat", {
+          chat: <IChats>context.getObject().ID,
+        });
+      })
+      .catch(() => {
+        context.delete("$auto");
+      });
   }
 }

@@ -11,6 +11,7 @@ export interface IChats {
   topic: string;
   model: string;
   streamingEnabled?: boolean;
+  summary: string;
   personality?: IPersonalities;
   personality_ID?: string;
   messages: IMessages[];
